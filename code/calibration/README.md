@@ -18,6 +18,8 @@ Calibration simulations are run on contact networks for primary schools, lower s
 
 Since school contact networks are to some extent random, because families are created at random and contacts between siblings can differ between two contact networks, we create 500 different contacts for every school type. Contact networks are stored as ```.bz2``` files. Every contact network also has a corresponding node list saved as ```.csv```, that lists all nodes (agents) present in the contact network. Every school type also has one schedule for teachers and students, respectively. The schedule is saved as ```.csv``` alongside the contact networks and node lists. For every agent and every hour of the (school) day, the schedule lists the room the agent is in.
 
+**Note**: creation of all contact networks takes some time. We provide 501 contact networks for each school type in the OSF-repository under ```../../data/calibration/contact_network/school_type/archive.zip``` in a compressed archive. If you do not want to create your own contact networks, please extract the contact networks from the archives and move them into their respective folders at ```../../data/calibration/contact_network/school_type```.
+
 ### Random grid search
 To calibrate the other free parameters, simulations are run for every school type on the previously created contact networks. This happens in the script ```calibration.ipynb```.  
 

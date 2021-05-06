@@ -1,12 +1,16 @@
 # Calibration
 **Note**: to run the scripts listed here, you will need to download the necessary data from the [OSF repository](https://osf.io/mde4k/) corresponding to this project. Please download the folder ```data``` from the repository and place it in the main directory of this repository (i.e. as ```../../data```, relative to the location of this README file).
 
-Calibration of the simulation model is divided in two steps:
-1. Calibration of the household transmission risk in a reduced simulation setting (only one household) and
-2. Calibration of the transmission risk of intermediate and loose contacts and the dependence of transmissibility on age.
+Calibration of the simulation model is divided into three steps:
+1. Calibration of the household transmission risk in a reduced simulation setting (only one household).
+2. Calculation of the dependence of asymptomatic courses on age from empirical observations.
+3. Calibration of the transmission risk of intermediate and loose contacts and the dependence of transmissibility on age.
 
 ## Calibration of the household transmission risk
 The calibration of the household transmission risk is performed in the script ```calibrate_household_transmission.ipynb```. The script does not require any external data to run. The only relevant simulation parameters are the distributions of exposure duration, infection duration and time until symptoms appear. The parameters defining these distributions are set in the script. The result of this script is the transmission risk per day for a contact of type "close" between two adults. Results of the simulation runs for the household risk calibration are saved in the folder ```../../data/calibration/simulation_results```.
+
+## Age-dependence of asymptomatic courses
+Simulations need information about the age-dependence of asymptomatic courses (parameter ```age_symptom_discount```). We calculate this dependency as a linear fit to the empirical observations of symptomatic and asymptomatic cases by age group (see script ```empirical_symptomatic_case_ratios.csv```). The script reads the file ```../../data/calibration/empirical_observations``` from the folder and saves visualisations to the folder ```../../plots/empirical_observations/```. The slope and intercept from the linear fit are then stored in the simulation parameter files that are loaded to initialise all following simulations.
 
 ## Calibration of contact weight and age-transmissibility dependence
 ### Contact network creation

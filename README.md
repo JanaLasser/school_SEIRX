@@ -19,6 +19,8 @@ The content of this repository is structured into four main parts, also reflecte
 
 Each of the four parts has its own ```README``` file, giving instructions on how to reproduce the simulations and analyses presented in the paper.
 
+**Note**: to run the scripts listed here, you will need to download the necessary data from the [OSF repository](https://osf.io/mde4k/) corresponding to this project. Please download the folder ```data``` from the repository and place it in the same directory of the repository as this README file.
+
 ## Requirements
 This project requires Python and Jupyter Notebooks to run. The scseirx python package can be installed using pip. This should satisfy all other package dependencies.
 

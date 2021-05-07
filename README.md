@@ -22,13 +22,15 @@ Each of the four parts has its own ```README``` file, giving instructions on how
 **Note**: to run the scripts listed here, you will need to download the necessary data from the [OSF repository](https://osf.io/mde4k/) corresponding to this project. Please download the folder ```data``` from the repository and place it in the same directory of the repository as this README file.
 
 ## Requirements
-This project requires Python and Jupyter Notebooks to run. The scseirx python package can be installed using pip. This should satisfy all other package dependencies.
+This project requires Python and Jupyter Notebooks as well as the scseirx Python package (v1.3.0) to run. The scseirx python package can be installed using pip. This should satisfy all other package dependencies.
 
-```pip install scseirx```
+```pip install -Iv scseirx==1.3.0```
 
-In the [README](https://github.com/JanaLasser/agent_based_COVID_SEIRX) of the scseirx-simulation repository you can find
+The installation of the package takes about one minute on a modern laptop with a fast internet connection, depending on how many dependencies need to be downloaded.
+
+In the [README](https://github.com/JanaLasser/agent_based_COVID_SEIRX) of the scseirx simulation repository you can find
 * A detailed description of the simulation design and implementation
-* Easy-to-follow usage examples of the simulation package
+* Easy-to-follow usage examples for the simulation package (specifically relevant for the school application is [this](https://github.com/JanaLasser/agent_based_COVID_SEIRX/blob/v1.3.0/src/scseirx/example_school.ipynb) example notebook).
 * Installation instructions for linux
 
 

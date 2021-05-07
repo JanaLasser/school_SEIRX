@@ -20,10 +20,11 @@ Since school contact networks are to some extent random, because families are cr
 
 **Note**: creation of all contact networks takes some time. We provide 501 contact networks for each school type in the OSF-repository under ```../../data/contact_networks/calibration/school_type.zip``` in a compressed archive. If you do not want to create your own contact networks, please extract the contact networks from their respective archives.
 
-### Random grid search
-To calibrate the other free parameters, simulations are run for every school type on the previously created contact networks. This happens in the script ```calibration.ipynb```.  
+### Optimum parameter search
+To calibrate the other free parameters, simulations are run for every school type on the previously created contact networks for different values of the free parameters. We first do a random grid search followed by a refined grid search to find the best parameter combination. This happens in the script ```calibration.ipynb```.  
 
 The simulation parameters, prevention measures and school characteristics used for these simulations are stored separately in the folder ```params```. As base transmission risk, we use the value for the transmission risk of household contacts determined in the calibration of the household transmission risk above.  
+
 The data of the empirical observations used to calibrate the simulations are stored in the folder ```../../data/calibration/empirical_observations```.
 
 The module ```calibration_functions.py``` provides the main functions used to run the simulation and optimise the difference between simulation results and empirical observations. Simulation results from the calibration runs are stored in the folder ```../../data/calibration/simulation_results```. 

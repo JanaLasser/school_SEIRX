@@ -15,9 +15,9 @@ Simulations are run for all 288 possible combinations of measures (different pre
 
 The simulation parameters, prevention measures and school characteristics used for these simulations are stored separately in the folder ```params```. As base transmission risk, intermediate contact weight, far contact weight and age transmission discout we use the values determined during the calibration of the model.  
 
-The module ```data_creation_functions.py``` provides the main functions used to run the simulations and aggregate simulation results. Simulation results are stored in the folder ```../../data/intervention_measures/simulation_results```.
+The module ```data_creation_functions.py``` provides the main functions used to run the simulations, aggregate simulation results and extract observables. Simulation results are stored in the folder ```../../data/intervention_measures/simulation_results```.
 
-**Note**: Each measure combination and school type requires at least 500 runs to produce reliable statistics. This takes a long time and should therefore be run on several cores in parallel. Here, we provide a sample script to test the functionality of the simulations. We ran and aggregated all simulations on a cluster and provide the resulting ensembles for every school type in the folder ```../../data/intervention_measures/simulation_results```.
+**Note**: Each measure combination and school type requires at least 500 runs to produce reliable statistics. This takes a long time and should therefore be run on several cores in parallel. Here, we provide a sample script to test the functionality of the simulations. We ran and aggregated all simulations on a cluster and provide the resulting ensembles and observables for every school type in the folder ```../../data/intervention_measures/simulation_results```.
 
 ## Analysing the results
 Analysis of the ensembles of simulations for each school type and parameter combination is done in the script ```intervention_measures_analysis.ipynb```. In this script, the impact of individual measures (figure 3 in the paper) and of measure combinations (figure 4) is analysed. Plots are stored at ```../../plots/intervention_measures```.

@@ -24,7 +24,7 @@ This project requires Python and Jupyter Notebooks to run. The scseirx python pa
 
 ```pip install scseirx```
 
-In the [README](https://github.com/JanaLasser/agent_based_COVID_SEIRX) of the simulation repository you can find
+In the [README](https://github.com/JanaLasser/agent_based_COVID_SEIRX) of the scseirx-simulation repository you can find
 * A detailed description of the simulation design and implementation
 * Easy-to-follow usage examples of the simulation package
 * Installation instructions for linux

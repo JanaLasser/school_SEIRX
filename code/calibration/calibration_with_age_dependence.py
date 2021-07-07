@@ -28,7 +28,7 @@ with open('params/calibration_simulation_parameters.json', 'r') as fp:
 with open('params/calibration_school_characteristics.json', 'r') as fp:
     school_characteristics = json.load(fp)
 
-N_runs = 500
+N_runs = 1
 #school_types = ['primary', 'primary_dc', 'lower_secondary',
 #                'lower_secondary_dc', 'upper_secondary', 'secondary']
 school_types = ['primary']
@@ -64,7 +64,7 @@ number_of_cores = psutil.cpu_count(logical=True) - 2
 pool = Pool(number_of_cores)
 
 rows = []
-for row in tqdm(pool.imap_unordered(func=run, iterable=screening_params),
+for row in tqdm(pool.imap_unordered(func=run, iterable=screening_params[0:10]),
                 total=len(screening_params)):
         rows.append(row)
 pool.close()

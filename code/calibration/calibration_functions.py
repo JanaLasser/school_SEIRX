@@ -350,7 +350,7 @@ def run_model(school_type, run, intermediate_contact_weight,
       agent_types = agent_types, 
       age_transmission_risk_discount = \
                  {'slope':age_transmission_discount, 'intercept':1},
-      age_symptom_discount = simulation_params['age_symptom_discount'],
+      age_symptom_modification = simulation_params['age_symptom_discount'],
       mask_filter_efficiency = measures['mask_filter_efficiency'],
       transmission_risk_ventilation_modifier = \
                          measures['transmission_risk_ventilation_modifier'],)

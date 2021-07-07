@@ -1,0 +1,9 @@
+type,group,ratio
+secondary,student,0.8802469135802469
+secondary,teacher,0.11975308641975309
+upper_secondary,student,0.8891752577319587
+upper_secondary,teacher,0.11082474226804123
+lower_secondary,student,0.7913385826771654
+lower_secondary,teacher,0.20866141732283464
+primary,student,0.6888111888111889
+primary,teacher,0.3111888111888112

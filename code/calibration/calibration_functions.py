@@ -584,3 +584,71 @@ def get_ensemble_parameters_from_filename(f):
     params = {'school_type':school_type, 'icw':icw, 'fcw':fcw, 'atd':atd}
     
     return params
+
+def evaulate_from_ensemble_data(src, ep, outbreak_sizes, group_distributions):
+    '''
+    Evaluate an ensemble from the simulation data saved for the ensemble 
+    (rahter than the model object holding the finished simulation itself),
+    given the expected outbreak sizes and group distributions.
+    
+    Parameters:
+    -----------
+    src : string
+        Absolute or relative path to the folder holding all ensemble data.
+    ep : tuple
+        Tuple holding the ensemble parameters (number of runs, school type, 
+        intermediate contact weight, far contact weight, age trans. discount).
+    outbreak_size : pandas DataFrame
+        Data frame holding the empirical outbreak size observations. The 
+        outbreak size has to be given in the column "size", the school type in
+        the column "type".
+    group_distributions : pandas DataFrame
+        Data frame holding the empirical observations of the ratio of infections
+        in a given group (student, teacher) as compared to the overall number of
+        infections (students + teachers). The data frame has three columns:
+        "school_type", "group" and "ratio", where "group" indicates which group
+        (student or teacher) the number in "ratio" belongs to.
+        
+    Returns:
+    --------
+    row : dictionary
+        Dictionary holding the school type, values for the calibration 
+        parameters (intermediate_contact_weight, far_contact_weight, 
+        age_transmission_discount) and the values of the respective error terms
+        for the outbreak size distribution and group case distribution.
+    '''
+    _, school_type, icw, fcw, atd = ep
+    ensemble_results = pd.DataFrame()
+    fname = 'school_type-{}_icw-{:1.2f}_fcw-{:1.2f}_atd-{:1.2f}.csv'\
+        .format(school_type, icw, fcw, atd)
+    ensmbl = pd.read_csv(join(src, fname))
+    
+    for run in ensmbl['run'].unique():
+        run = ensmbl[ensmbl['run'] == run]
+        
+        # find the index case
+        if (run[run['step'] == 0]['E_student'] == 1).values[0]:
+            index_case = 'student'
+        else:
+            index_case = 'teacher'
+            
+        last_step = run[run['step'] == run['step'].max()]
+        infected_students = last_step[['I_student', 'R_student', 'E_student']]\
+            .sum(axis=1).values[0]
+        infected_teachers = last_step[['I_teacher', 'R_teacher', 'E_teacher']]\
+            .sum(axis=1).values[0]
+        
+        if index_case == 'teacher':
+            infected_teachers -= 1
+        else:
+            infected_students -= 1
+        
+        # add run results to the ensemble results
+        ensemble_results = ensemble_results.append({ 
+                  'infected_teachers':infected_teachers,
+                  'infected_students':infected_students}, ignore_index=True)
+        
+        row = cf.evaluate_ensemble(ensemble_results, school_type, icw,
+                      fcw, atd, outbreak_sizes, group_distributions)
+        
+        return row

@@ -370,7 +370,7 @@ def run_ensemble(N_runs, school_type, intermediate_contact_weight,
               far_contact_weight, age_transmission_discount, 
               prevention_measures, school_characteristics,
               agent_index_ratios, simulation_params,
-              contact_network_src):
+              contact_network_src, ensmbl_dst):
     '''
     Utility function to run an ensemble of simulations for a given school type
     and parameter combination.
@@ -428,6 +428,9 @@ def run_ensemble(N_runs, school_type, intermediate_contact_weight,
         contact networks for each school types in a sub-folder with the same
         name as the school type. Networks need to be saved in networkx's .bz2
         format.
+    ensmbl_dst : string
+        Absolute or relative path pointing to the location where full ensemble
+        results should be saved. 
         
     Returns:
     --------
@@ -437,6 +440,7 @@ def run_ensemble(N_runs, school_type, intermediate_contact_weight,
     '''
     
     ensemble_results = pd.DataFrame()
+    ensemble_runs = pd.DataFrame()
     for run in range(1, N_runs + 1):
         model, index_case = run_model(school_type, run, 
                   intermediate_contact_weight,
@@ -456,9 +460,22 @@ def run_ensemble(N_runs, school_type, intermediate_contact_weight,
         else:
             infected_students -= 1
 
-        ensemble_results = ensemble_results.append({
-            'infected_teachers':infected_teachers,
-            'infected_students':infected_students}, ignore_index=True)
+        # add run results to the ensemble results
+        ensemble_results = ensemble_results.append({ 
+                  'infected_teachers':infected_teachers,
+                  'infected_students':infected_students}, ignore_index=True)
+        
+        # collect the statistics of the single run
+        data = model.datacollector.get_model_vars_dataframe()
+        data['run'] = run
+        data['step'] = range(0, len(data))
+        ensemble_runs = pd.concat([ensemble_runs, data])
+        
+    ensemble_runs = ensemble_runs.reset_index(drop=True)
+    ensemble_runs.to_csv(join(ensmbl_dst,
+            'school_type-{}_icw-{:1.2f}_fcw-{:1.2f}_atd-{:1.2f}.csv'\
+        .format(school_type, intermediate_contact_weight, far_contact_weight,
+                age_transmission_discount)), index=False)
         
     return ensemble_results   
 
@@ -540,3 +557,30 @@ def evaluate_ensemble(ensemble_results, school_type, intermediate_contact_weight
         }
     
     return row
+
+def get_ensemble_parameters_from_filename(f):
+    '''
+    Extracts the simulation parameters for an ensemble given its ensemble file
+    name string.
+    
+    Parameters:
+    -----------
+    f : string of the form school_type-{}_icw-{}_fcw-{}_atd-{}.csv that encodes
+        the ensemble parameter for the school type, intermediate contact weight
+        (icw), far contact weight (fcw) and age transmission discount (atd).
+        The parameters icw, fcw and atd are floats with a precision of two 
+        decimal places.
+    
+    Returns:
+    --------
+    params : dict
+        Dict with the fields school_type (str), icw (float), fcw (float) and
+        atd (float), which hold the simulation parameters of the ensemble.
+    '''
+    school_type = f.split('_icw')[0].replace('school_type-', '')
+    icw = round(float(f.split('icw-')[1].split('_fcw')[0]), 2)
+    fcw = round(float(f.split('fcw-')[1].split('_atd')[0]), 2)
+    atd = round(float(f.split('atd-')[1].split('.csv')[0]), 2)
+    params = {'school_type':school_type, 'icw':icw, 'fcw':fcw, 'atd':atd}
+    
+    return params

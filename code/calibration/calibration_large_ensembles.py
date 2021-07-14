@@ -124,13 +124,15 @@ def run(params):
 hostname = socket.gethostname()
 if hostname == 'desiato':
     number_of_cores = 200 # desiato
-    print('running on {}, using 200 cores'.format(hostname))
+    print('running on {}, using {} cores'.format(hostname, number_of_cores))
 elif hostname == 'T14s':
     number_of_cores = 14 # laptop
-    print('running on {}, using 14 cores'.format(hostname))
+    print('running on {}, using {} cores'.format(hostname, number_of_cores))
 elif hostname == 'marvin':
     number_of_cores = 22 # marvin
-    print('running on {}, using 22 cores'.format(hostname))
+    print('running on {}, using {} cores'.format(hostname, number_of_cores))
+else:
+    print('unknown host')
 
 # run the simulation in parallel on the available cores
 rows = []

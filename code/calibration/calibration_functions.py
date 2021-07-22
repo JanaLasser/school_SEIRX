@@ -618,6 +618,8 @@ def evaulate_from_ensemble_data(src, ep, outbreak_sizes, group_distributions):
         for the outbreak size distribution and group case distribution.
     '''
     _, school_type, icw, fcw, atd = ep
+    icw = round(icw, 2)
+    fcw = round(fcw, 2)
     ensemble_results = pd.DataFrame()
     fname = 'school_type-{}_icw-{:1.2f}_fcw-{:1.2f}_atd-{:1.2f}.csv'\
         .format(school_type, icw, fcw, atd)
@@ -648,7 +650,7 @@ def evaulate_from_ensemble_data(src, ep, outbreak_sizes, group_distributions):
                   'infected_teachers':infected_teachers,
                   'infected_students':infected_students}, ignore_index=True)
         
-        row = cf.evaluate_ensemble(ensemble_results, school_type, icw,
-                      fcw, atd, outbreak_sizes, group_distributions)
+    row = evaluate_ensemble(ensemble_results, school_type, icw,
+                    fcw, atd, outbreak_sizes, group_distributions)
         
-        return row
+    return row

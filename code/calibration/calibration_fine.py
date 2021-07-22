@@ -75,9 +75,9 @@ school_types = [st]
 # previous random sampling search, passed to the script via the command line.
 intermediate_contact_weights_fine = np.hstack([
     np.arange(opt_intermediate_contact_weight_coarse - 0.05, 
-              opt_intermediate_contact_weight_coarse, 0.01),
+              opt_intermediate_contact_weight_coarse, 0.02),
     np.arange(opt_intermediate_contact_weight_coarse, 
-              opt_intermediate_contact_weight_coarse + 0.11, 0.01)
+              opt_intermediate_contact_weight_coarse + 0.11, 0.02)
     ])
 far_contact_weights_fine = np.hstack([
     np.arange(opt_far_contact_weight_coarse - 0.15, 
@@ -129,7 +129,7 @@ elif hostname == 'T14s':
     number_of_cores = 14 # laptop
     print('running on {}, using {} cores'.format(hostname, number_of_cores))
 elif hostname == 'marvin':
-    number_of_cores = 28 # marvin
+    number_of_cores = 24 # marvin
     print('running on {}, using {} cores'.format(hostname, number_of_cores))
 else:
     print('unknown host')

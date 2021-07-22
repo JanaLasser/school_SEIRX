@@ -81,9 +81,9 @@ intermediate_contact_weights_fine = np.hstack([
     ])
 far_contact_weights_fine = np.hstack([
     np.arange(opt_far_contact_weight_coarse - 0.15, 
-              opt_far_contact_weight_coarse, 0.01),
+              opt_far_contact_weight_coarse, 0.02),
     np.arange(opt_far_contact_weight_coarse, 
-              opt_far_contact_weight_coarse + 0.05, 0.01)
+              opt_far_contact_weight_coarse + 0.05, 0.02)
     ])
 print('intermediate: ', intermediate_contact_weights_fine)
 print('far: ', far_contact_weights_fine)

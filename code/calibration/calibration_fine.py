@@ -153,5 +153,5 @@ index_cols = ['school_type', 'intermediate_contact_weight',
 other_cols = [c for c in results.columns if c not in index_cols]
 results = results[index_cols + other_cols]
 
-results.to_csv(join(dst,'calibration_results_fine_sampling_{}_{}.csv'\
+results.to_csv(join(dst,'calibration_results_fine_sampling_noage_{}_{}.csv'\
                    .format(N_runs, st)), index=False)

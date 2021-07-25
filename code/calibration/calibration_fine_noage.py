@@ -20,6 +20,7 @@ st = sys.argv[1]
 # coarse optimization run with small (N=500) ensembles that preceded this run.
 opt_intermediate_contact_weight_coarse = float(sys.argv[2])
 opt_far_contact_weight_coarse = float(sys.argv[3])
+
 # number of simulation runs in each ensemble
 N_runs = int(sys.argv[4])
 # is this a test run?
@@ -69,31 +70,38 @@ with open('params/calibration_school_characteristics.json', 'r') as fp:
 
 ## parameter grid for which simulations will be run
 school_types = [st]
-# the contact weight is the modifier by which the base transmission risk (for
-# household transmissions) is multiplied for contacts of type "intermediate" 
-# and of type "far". Parameter values are chosen around the optimum from the
-# previous random sampling search, passed to the script via the command line.
-intermediate_contact_weights_fine = np.hstack([
-    np.arange(opt_intermediate_contact_weight_coarse - 0.05, 
-              opt_intermediate_contact_weight_coarse, 0.02),
-    np.arange(opt_intermediate_contact_weight_coarse, 
-              opt_intermediate_contact_weight_coarse + 0.11, 0.02)
-    ])
-far_contact_weights_fine = np.hstack([
-    np.arange(opt_far_contact_weight_coarse - 0.15, 
-              opt_far_contact_weight_coarse, 0.02),
-    np.arange(opt_far_contact_weight_coarse, 
-              opt_far_contact_weight_coarse + 0.05, 0.02)
-    ])
-print('intermediate: ', intermediate_contact_weights_fine)
-print('far: ', far_contact_weights_fine)
+if opt_far_contact_weight_coarse == 'prespecified':
+    filename = opt_intermediate_contact_weight_coarse
+    weights = np.loadtxt(filename)
+    screening_params = [(N_runs, i, params[0], params[1], 0.0) for i in school_types\
+                        for params in weights]
 
-# list of all possible parameter combinations from the grid
-# Note: the age transmission discount is set to 0 for all parameter
-# combinations here, since this is a calibration run without age dependence.
-screening_params = [(N_runs, i, j, k, 0) for i in school_types \
-                    for j in intermediate_contact_weights_fine \
-                    for k in far_contact_weights_fine if j >= k]
+else:
+    # the contact weight is the modifier by which the base transmission risk (for
+    # household transmissions) is multiplied for contacts of type "intermediate" 
+    # and of type "far". Parameter values are chosen around the optimum from the
+    # previous random sampling search, passed to the script via the command line.
+    intermediate_contact_weights_fine = np.hstack([
+        np.arange(opt_intermediate_contact_weight_coarse - 0.05, 
+                  opt_intermediate_contact_weight_coarse, 0.02),
+        np.arange(opt_intermediate_contact_weight_coarse, 
+                  opt_intermediate_contact_weight_coarse + 0.11, 0.02)
+        ])
+    far_contact_weights_fine = np.hstack([
+        np.arange(opt_far_contact_weight_coarse - 0.15, 
+                  opt_far_contact_weight_coarse, 0.02),
+        np.arange(opt_far_contact_weight_coarse, 
+                  opt_far_contact_weight_coarse + 0.05, 0.02)
+        ])
+    print('intermediate: ', intermediate_contact_weights_fine)
+    print('far: ', far_contact_weights_fine)
+
+    # list of all possible parameter combinations from the grid
+    # Note: the age transmission discount is set to 0 for all parameter
+    # combinations here, since this is a calibration run without age dependence.
+    screening_params = [(N_runs, i, j, k, 0) for i in school_types \
+                        for j in intermediate_contact_weights_fine \
+                        for k in far_contact_weights_fine if j >= k]
 
 if test:
     screening_params = screening_params[0:10]

@@ -139,7 +139,7 @@ elif hostname == 'T14s':
     number_of_cores = 14 # laptop
     print('running on {}, using {} cores'.format(hostname, number_of_cores))
 elif hostname == 'marvin':
-    number_of_cores = 24 # marvin
+    number_of_cores = 28 # marvin
     print('running on {}, using {} cores'.format(hostname, number_of_cores))
 else:
     print('unknown host')

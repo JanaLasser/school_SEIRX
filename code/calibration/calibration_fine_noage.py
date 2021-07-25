@@ -18,8 +18,8 @@ st = sys.argv[1]
 
 # optimal value for the intermediate and far contact weights, determined in the
 # coarse optimization run with small (N=500) ensembles that preceded this run.
-opt_intermediate_contact_weight_coarse = float(sys.argv[2])
-opt_far_contact_weight_coarse = float(sys.argv[3])
+opt_intermediate_contact_weight_coarse = sys.argv[2]
+opt_far_contact_weight_coarse = sys.argv[3]
 
 # number of simulation runs in each ensemble
 N_runs = int(sys.argv[4])
@@ -77,6 +77,8 @@ if opt_far_contact_weight_coarse == 'prespecified':
                         for params in weights]
 
 else:
+    opt_intermediate_contact_weight_coarse = float(opt_intermediate_contact_weight_coarse)
+    opt_far_contact_weight_coarse = float(opt_far_contact_weight_coarse)
     # the contact weight is the modifier by which the base transmission risk (for
     # household transmissions) is multiplied for contacts of type "intermediate" 
     # and of type "far". Parameter values are chosen around the optimum from the

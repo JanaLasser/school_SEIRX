@@ -16,6 +16,15 @@ school_types = [sys.argv[1]]
 N_networks = int(sys.argv[2])
 dst = '../../data/contact_networks/calibration'
 
+# in principle there is functionality in place to generate contacts
+# between students in different classes, depending on the floor the
+# classes are on. We currently don't use this functionality, as 
+# schools all implement measures to keep between-class-contacts to
+# a minimum- Therefore floor specifications are not important for our
+# school layout and we just assume that all classes are on the same
+# floor.
+N_floors = 1
+
 
 school_params = [(st, i, N_floors) for st in school_types \
                                       for i in range(N_networks)]
@@ -136,15 +145,6 @@ def run(params):
             s.to_csv(join(dst, '{}/{}_schedule_{}.csv'\
                         .format(school_type, school_name, atype)))
             
-# in principle there is functionality in place to generate contacts
-# between students in different classes, depending on the floor the
-# classes are on. We currently don't use this functionality, as 
-# schools all implement measures to keep between-class-contacts to
-# a minimum- Therefore floor specifications are not important for our
-# school layout and we just assume that all classes are on the same
-# floor.
-N_floors = 1
-
 # figure out which host we are running on and determine number of cores to
 # use for the parallel programming
 hostname = socket.gethostname()

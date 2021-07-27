@@ -2,6 +2,7 @@ import networkx as nx
 import pandas as pd
 from os.path import join
 import sys
+import socket
 
 # network construction utilities
 from scseirx import construct_school_network as csn
@@ -144,7 +145,21 @@ def run(params):
 # floor.
 N_floors = 1
 
-number_of_cores = psutil.cpu_count(logical=True) - 2
+# figure out which host we are running on and determine number of cores to
+# use for the parallel programming
+hostname = socket.gethostname()
+if hostname == 'desiato':
+    number_of_cores = 200 # desiato
+    print('running on {}, using {} cores'.format(hostname, number_of_cores))
+elif hostname == 'T14s':
+    number_of_cores = 14 # laptop
+    print('running on {}, using {} cores'.format(hostname, number_of_cores))
+elif hostname == 'marvin':
+    number_of_cores = 28 # marvin
+    print('running on {}, using {} cores'.format(hostname, number_of_cores))
+else:
+    print('unknown host')
+    
 pool = Pool(number_of_cores)
 
 for row in tqdm(pool.imap_unordered(func=run, iterable=school_params),

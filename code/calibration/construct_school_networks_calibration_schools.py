@@ -13,7 +13,7 @@ import psutil
 from tqdm import tqdm
 
 school_types = [sys.argv[1]]
-N_networks = sys.argv[2]
+N_networks = int(sys.argv[2])
 dst = '../../data/contact_networks/calibration'
 
 

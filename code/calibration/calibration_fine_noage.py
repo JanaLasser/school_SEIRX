@@ -85,16 +85,22 @@ else:
     # previous random sampling search, passed to the script via the command line.
     intermediate_contact_weights_fine = np.hstack([
         np.arange(opt_intermediate_contact_weight_coarse - 0.05, 
-                  opt_intermediate_contact_weight_coarse, 0.02),
+                  opt_intermediate_contact_weight_coarse, 0.01),
         np.arange(opt_intermediate_contact_weight_coarse, 
-                  opt_intermediate_contact_weight_coarse + 0.11, 0.02)
+                  opt_intermediate_contact_weight_coarse + 0.06, 0.01)
         ])
     far_contact_weights_fine = np.hstack([
-        np.arange(opt_far_contact_weight_coarse - 0.15, 
-                  opt_far_contact_weight_coarse, 0.02),
+        np.arange(opt_far_contact_weight_coarse - 0.1, 
+                  opt_far_contact_weight_coarse, 0.01),
         np.arange(opt_far_contact_weight_coarse, 
-                  opt_far_contact_weight_coarse + 0.05, 0.02)
+                  opt_far_contact_weight_coarse + 0.06, 0.01)
         ])
+    
+    intermediate_contact_weights_fine = np.asarray([round(i, 2) \
+                for i in intermediate_contact_weights_fine])
+    far_contact_weights_fine = np.asarray([round(i, 2) \
+                for i in far_contact_weights_fine])
+
     print('intermediate: ', intermediate_contact_weights_fine)
     print('far: ', far_contact_weights_fine)
 
@@ -103,7 +109,7 @@ else:
     # combinations here, since this is a calibration run without age dependence.
     screening_params = [(N_runs, i, j, k, 0) for i in school_types \
                         for j in intermediate_contact_weights_fine \
-                        for k in far_contact_weights_fine if j >= k]
+                        for k in far_contact_weights_fine]
 
 if test:
     screening_params = screening_params[0:10]

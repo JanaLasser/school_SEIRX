@@ -88,7 +88,7 @@ contact_weights_fine = np.hstack([
 # transmission risk is reduced. Parameter values are chosen around the optimum 
 # from the previous random sampling search
 age_transmission_discounts_fine = [-0.01,-0.02,-0.03,-0.04,-0.05,-0.06, 
-                                   -0.07, -0.08, -0.09, -0.1]
+                                   -0.07, -0.08, -0.09]
 
 contact_weights_fine = np.asarray([round(i, 2) \
             for i in contact_weights_fine])

@@ -320,7 +320,7 @@ def run_model(school_type, run, intermediate_contact_weight,
     # calibration schools from which we can chose. We use a different
     # calibration school instance for every run here
     G = nx.readwrite.gpickle.read_gpickle(join(school_src,\
-                    '{}_{}.bz2'.format(school_name, run)))
+                    '{}_{}.bz2'.format(school_name, run%2000)))
 
     # pick an index case according to the probabilities for the school type
     index_case = np.random.choice(['teacher', 'student'],

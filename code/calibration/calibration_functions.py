@@ -473,7 +473,7 @@ def run_ensemble(N_runs, school_type, intermediate_contact_weight,
         
     ensemble_runs = ensemble_runs.reset_index(drop=True)
     ensemble_runs.to_csv(join(ensmbl_dst,
-            'school_type-{}_icw-{:1.2f}_fcw-{:1.2f}_atd-{:1.2f}.csv'\
+            'school_type-{}_icw-{:1.2f}_fcw-{:1.2f}_atd-{:1.4f}.csv'\
         .format(school_type, intermediate_contact_weight, far_contact_weight,
                 age_transmission_discount)), index=False)
         

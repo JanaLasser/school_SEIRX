@@ -76,7 +76,7 @@ opt_contact_weight_coarse = float(opt_contact_weight_coarse)
 # and of type "far". Parameter values are chosen around the optimum from the
 # previous random sampling search, passed to the script via the command line.
 contact_weights_fine = np.hstack([
-    np.arange(opt_contact_weight_coarse - 0.03, 
+    np.arange(opt_contact_weight_coarse - 0.04, 
               opt_contact_weight_coarse, 0.01),
     np.arange(opt_contact_weight_coarse, 
               opt_contact_weight_coarse + 0.08, 0.01)

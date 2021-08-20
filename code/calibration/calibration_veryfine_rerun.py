@@ -82,9 +82,9 @@ contact_weights_fine = np.asarray([0.27])
 # transmission risk. For every year an agent is younger than 18 years, the
 # transmission risk is reduced. Parameter values are chosen around the optimum 
 # from the previous random sampling search
-age_transmission_discounts_fine = [0.00, -0.0025, -0.005, -0.0075, -0.01,
-                                   -0.0125, -0.015, -0.0175, -0.02,
-                                   -0.0225, -0.025, -0.0275, -0.03]
+age_transmission_discounts_fine = [0.0000, -0.0025, -0.0050, -0.0075, -0.0100,
+                                   -0.0125, -0.0150, -0.0175, -0.0200,
+                                   -0.0225, -0.0250, -0.0275, -0.0300]
 
 contact_weights_fine = np.asarray([round(i, 2) \
             for i in contact_weights_fine])

@@ -19,7 +19,7 @@ school_types = [st]
 
 # optimal value for the intermediate and far contact weights, determined in the
 # coarse optimization run with small (N=500) ensembles that preceded this run.
-opt_contact_weight_coarse = sys.argv[2]
+opt_contact_weight_prev = sys.argv[2]
 
 # number of simulation runs in each ensemble
 N_runs = int(sys.argv[3])
@@ -39,7 +39,7 @@ except IndexError:
 contact_network_src = '../../data/contact_networks/calibration'
 # destination for the data of every single run in the ensemble that will 
 # generated and stored during the simulation 
-ensmbl_dst = '../../data/calibration/simulation_results/ensembles_fine'
+ensmbl_dst = '../../data/calibration/simulation_results/ensembles_coarse'
 # destination of the data for the overall statistics generated in the 
 # calibration run
 dst = '../../data/calibration/simulation_results'
@@ -75,11 +75,11 @@ opt_contact_weight_coarse = float(opt_contact_weight_coarse)
 # household transmissions) is multiplied for contacts of type "intermediate" 
 # and of type "far". Parameter values are chosen around the optimum from the
 # previous random sampling search, passed to the script via the command line.
-contact_weights_fine = np.hstack([
-    np.arange(opt_contact_weight_coarse - 0.05, 
-              opt_contact_weight_coarse, 0.01),
-    np.arange(opt_contact_weight_coarse, 
-              opt_contact_weight_coarse + 0.06, 0.01)
+contact_weights_coarse = np.hstack([
+    np.arange(opt_contact_weight_prev - 0.05, 
+              opt_contact_weight_prev, 0.01),
+    np.arange(opt_contact_weight_prev, 
+              opt_contact_weight_prev + 0.06, 0.01)
     ])
 
 # the age_transmission_discount sets the slope of the age-dependence of the 
@@ -87,22 +87,22 @@ contact_weights_fine = np.hstack([
 # transmission risk. For every year an agent is younger than 18 years, the
 # transmission risk is reduced. Parameter values are chosen around the optimum 
 # from the previous random sampling search
-age_transmission_discounts_fine = [-0.01,-0.02,-0.03,-0.04,-0.05,-0.06, 
+age_transmission_discounts_coarse = [-0.01,-0.02,-0.03,-0.04,-0.05,-0.06, 
                                    -0.07, -0.08, -0.09]
 
-contact_weights_fine = np.asarray([round(i, 2) \
-            for i in contact_weights_fine])
+contact_weights_coarse = np.asarray([round(i, 2) \
+            for i in contact_weights_coarse])
 
 
-print('contact weiths: ', contact_weights_fine)
-print('age discounts: ', age_transmission_discounts_fine)
+print('contact weiths: ', contact_weights_coarse)
+print('age discounts: ', age_transmission_discounts_coarse)
 
 # list of all possible parameter combinations from the grid
 # Note: the age transmission discount is set to 0 for all parameter
 # combinations here
 screening_params = [(N_runs, i, j, j, k) for i in school_types \
-                    for j in contact_weights_fine \
-                    for k in age_transmission_discounts_fine]
+                    for j in contact_weights_coarse \
+                    for k in age_transmission_discounts_coarse]
 
 if test:
     screening_params = screening_params[0:10]
@@ -162,5 +162,5 @@ index_cols = ['school_type', 'intermediate_contact_weight',
 other_cols = [c for c in results.columns if c not in index_cols]
 results = results[index_cols + other_cols]
 
-results.to_csv(join(dst,'calibration_results_fine_sampling_{}_{}.csv'\
+results.to_csv(join(dst,'calibration_results_coarse_sampling_{}_{}.csv'\
                    .format(N_runs, st)), index=False)

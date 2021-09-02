@@ -18,8 +18,8 @@ st = sys.argv[1]
 school_types = [st]
 
 # optimal value for the intermediate and far contact weights, determined in the
-# coarse optimization run with small (N=500) ensembles that preceded this run.
-opt_contact_weight_coarse = sys.argv[2]
+# fine optimization run with small (N=2000) ensembles that preceded this run.
+opt_contact_weight_fine = sys.argv[2]
 
 # number of simulation runs in each ensemble
 N_runs = int(sys.argv[3])
@@ -70,16 +70,16 @@ with open('params/calibration_school_characteristics.json', 'r') as fp:
 
 ## parameter grid for which simulations will be run
 
-opt_contact_weight_coarse = float(opt_contact_weight_coarse)
+opt_contact_weight_fine = float(opt_contact_weight_fine)
 # the contact weight is the modifier by which the base transmission risk (for
 # household transmissions) is multiplied for contacts of type "intermediate" 
 # and of type "far". Parameter values are chosen around the optimum from the
 # previous random sampling search, passed to the script via the command line.
 contact_weights_fine = np.hstack([
-    np.arange(opt_contact_weight_coarse - 0.04, 
+    np.arange(opt_contact_weight_coarse - 0.06, 
               opt_contact_weight_coarse, 0.01),
     np.arange(opt_contact_weight_coarse, 
-              opt_contact_weight_coarse + 0.08, 0.01)
+              opt_contact_weight_coarse + 0.061, 0.01)
     ])
 
 # the age_transmission_discount sets the slope of the age-dependence of the 

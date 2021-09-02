@@ -128,7 +128,7 @@ def run_model(G, agent_types, measures, simulation_params, index_case,
       agent_types = agent_types, 
       age_transmission_risk_discount = \
                          simulation_params['age_transmission_discount'],
-      age_symptom_discount = simulation_params['age_symptom_discount'],
+      age_symptom_modification = simulation_params['age_symptom_discount'],
       mask_filter_efficiency = simulation_params['mask_filter_efficiency'],
       transmission_risk_ventilation_modifier = ventilation_mod,
       seed=seed)

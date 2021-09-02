@@ -6,6 +6,45 @@ import networkx as nx
 from os.path import join
 from scipy.stats import spearmanr, pearsonr
 
+def weibull_two_param(shape, scale):
+    '''
+    Scales a Weibull distribution that is defined soely by its shape.
+    '''
+    return scale * np.random.weibull(shape)
+
+
+def get_epi_params():
+    '''
+    Gets a combination of exposure duration, time until symptom onset and
+    infection duration that satisfies all conditions.
+    '''
+    # scale and shape of Weibull distributions defined by the following means
+    # and variances
+    # exposure_duration = [5, 1.9] / days
+    # time_until_symptoms = [6.4, 0.8] / days
+    # infection_duration = [10.91, 3.95] / days
+    epi_params = {
+        'exposure_duration': [2.8545336526034513, 5.610922825244271],
+        'time_until_symptoms': [9.602732979535194, 6.738998146675984],
+        'infection_duration': [3.012881111335679, 12.215213280459125]}  
+
+    tmp_epi_params = {}
+    # iterate until a combination that fulfills all conditions is found
+    while True:
+        for param_name, param in epi_params.items():
+            tmp_epi_params[param_name] = \
+                round(weibull_two_param(param[0], param[1]))
+
+        # conditions
+        if tmp_epi_params['exposure_duration'] > 0 and \
+           tmp_epi_params['time_until_symptoms'] >= \
+           tmp_epi_params['exposure_duration'] and\
+           tmp_epi_params['infection_duration'] > \
+           tmp_epi_params['exposure_duration']:
+           
+            return tmp_epi_params
+        
+
 def calculate_distribution_difference(school_type, ensemble_results, \
                                       outbreak_sizes):
     '''

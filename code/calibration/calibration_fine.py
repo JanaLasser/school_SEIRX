@@ -19,7 +19,7 @@ school_types = [st]
 
 # optimal value for the intermediate and far contact weights, determined in the
 # fine optimization run with small (N=2000) ensembles that preceded this run.
-opt_contact_weight_fine = sys.argv[2]
+opt_contact_weight_coarse = sys.argv[2]
 
 # number of simulation runs in each ensemble
 N_runs = int(sys.argv[3])
@@ -39,7 +39,7 @@ except IndexError:
 contact_network_src = '../../data/contact_networks/calibration'
 # destination for the data of every single run in the ensemble that will 
 # generated and stored during the simulation 
-ensmbl_dst = '../../data/calibration/simulation_results/ensembles_veryfine'
+ensmbl_dst = '../../data/calibration/simulation_results/ensembles_fine'
 # destination of the data for the overall statistics generated in the 
 # calibration run
 dst = '../../data/calibration/simulation_results'
@@ -70,7 +70,7 @@ with open('params/calibration_school_characteristics.json', 'r') as fp:
 
 ## parameter grid for which simulations will be run
 
-opt_contact_weight_fine = float(opt_contact_weight_fine)
+opt_contact_weight_coarse = float(opt_contact_weight_coarse)
 # the contact weight is the modifier by which the base transmission risk (for
 # household transmissions) is multiplied for contacts of type "intermediate" 
 # and of type "far". Parameter values are chosen around the optimum from the
@@ -163,5 +163,5 @@ index_cols = ['school_type', 'intermediate_contact_weight',
 other_cols = [c for c in results.columns if c not in index_cols]
 results = results[index_cols + other_cols]
 
-results.to_csv(join(dst,'calibration_results_veryfine_sampling_{}_{}.csv'\
+results.to_csv(join(dst,'calibration_results_fine_sampling_{}_{}.csv'\
                    .format(N_runs, st)), index=False)

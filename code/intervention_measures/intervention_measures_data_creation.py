@@ -1,12 +1,10 @@
 import pandas as pd
-import numpy as np
 from os.path import join
 import os
 import json
 
 # custom libraries
-from scseirx import analysis_functions as af
-import data_creation_functions as dcf
+from data_creation_functions import run_ensemble
 
 # parallelisation functionality
 from multiprocess import Pool
@@ -121,7 +119,7 @@ def run(params):
         pass
 
     # run the ensemble with the given parameter combination and school type
-    row = dcf.run_ensemble(N_runs, school_type, measures,\
+    row = run_ensemble(N_runs, school_type, measures,\
             simulation_params, school_characteristics, contact_network_src,\
             dst, index_case, ttype, s_screen_interval, t_screen_interval,\
             student_mask, teacher_mask, half_classes, ventilation_mod)

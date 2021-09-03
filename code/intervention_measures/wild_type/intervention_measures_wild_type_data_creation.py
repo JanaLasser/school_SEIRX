@@ -1,9 +1,13 @@
 import pandas as pd
 from os.path import join
 import os
+import sys
 import json
 
 # custom libraries
+currentdir = os.getcwd()
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir) 
 from data_creation_functions import run_ensemble
 
 # parallelisation functionality
@@ -35,10 +39,10 @@ except IndexError:
 ## I/O
 # source of the contact networks for the calibration runs. There is a randomly
 # generated contact network for each run in the ensemble.
-contact_network_src = '../../data/contact_networks/representative_schools'
+contact_network_src = '../../../data/contact_networks/representative_schools'
 # destination of the data for the overall statistics generated in the 
 # calibration run
-dst = '../../data/intervention_measures/simulation_results'
+dst = '../../../data/intervention_measures/simulation_results'
 
 
 ## simulation settings

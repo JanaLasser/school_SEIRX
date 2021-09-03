@@ -8,6 +8,8 @@
 /code/cluster_scripts
 code/__pycache__/
 code/.ipynb_checkpoints/
+code/intervention_measures/delta/.ipynb_checkpoints/
+code/intervention_measures/wild_type/.ipynb_checkpoints/
 code/calibration/.ipynb_checkpoints/
 code/intervention_measures/.ipynb_checkpoints/
 code/visualizations/.ipynb_checkpoints/

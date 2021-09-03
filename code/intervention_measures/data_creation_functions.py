@@ -259,7 +259,7 @@ def run_ensemble(N_runs, school_type, measures, simulation_params,
         ensemble_results = ensemble_results.append(row,
             ignore_index=True)
         
-    ensemble_results.to_csv(join(spath_ensmbl, measure_string + '_.csv'))
+    ensemble_results.to_csv(join(spath_ensmbl, measure_string + '.csv'))
         
     return ensemble_results   
 

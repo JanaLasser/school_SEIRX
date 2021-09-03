@@ -7,6 +7,8 @@
 /data
 /code/cluster_scripts
 code/__pycache__/
+code/calibration/__pycache__/
+.ipynb_checkpoints/
 code/.ipynb_checkpoints/
 code/intervention_measures/delta/.ipynb_checkpoints/
 code/intervention_measures/wild_type/.ipynb_checkpoints/

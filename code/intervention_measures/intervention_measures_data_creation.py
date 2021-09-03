@@ -155,7 +155,7 @@ else:
 # run the simulation in parallel on the available cores
 pool = Pool(number_of_cores)
 rows = []
-for row in tqdm(pool.imap_unordered(func=run, iterable=params[0:10]), total=len(params)):
+for row in tqdm(pool.imap_unordered(func=run, iterable=params), total=len(params)):
         rows.append(row)
 
 # turn off your parallel workers 

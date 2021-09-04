@@ -1,6 +1,7 @@
 import pandas as pd
 from os.path import join
 from os import listdir
+import networkx as nx
 
 from scseirx.model_school import SEIRX_school
 from scseirx import analysis_functions as af

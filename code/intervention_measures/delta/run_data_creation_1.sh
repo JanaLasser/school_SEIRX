@@ -1,0 +1,4 @@
+python intervention_measures_delta_data_creation.py primary 500 
+python intervention_measures_delta_data_creation.py primary_dc 500 
+python intervention_measures_delta_data_creation.py lower_secondary 500 
+python intervention_measures_delta_data_creation.py lower_secondary_dc 500 

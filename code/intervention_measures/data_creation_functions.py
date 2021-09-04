@@ -1,14 +1,9 @@
-import networkx as nx
 import pandas as pd
-import numpy as np
 from os.path import join
-import os
-import shutil
-import json
+from os import listdir
 
 from scseirx.model_school import SEIRX_school
 from scseirx import analysis_functions as af
-from scseirx import construct_school_network as csn
 
 def compose_agents(measures, simulation_params):
     '''
@@ -266,7 +261,7 @@ def run_ensemble(N_runs, school_type, measures, simulation_params,
 def get_data(stype, src_path):
     data = pd.DataFrame()
     stype_path = join(src_path, stype)
-    files = os.listdir(stype_path)
+    files = listdir(stype_path)
     for f in files:
         screening_params, agents, half = af.get_measures(f.strip('.csv'))
         ensmbl = pd.read_csv(join(stype_path, f))

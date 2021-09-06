@@ -6,7 +6,7 @@ date
 
 N_runs=1
           
-max_tasks=50                 ## number of tasks per node.
+max_tasks=200                ## number of tasks per node.
 running_tasks=0              ## initialization
 src=../../data/contact_networks/reduced_class_size
 dst=../../data/sensitivity_analysis/simulation_results/worst_case

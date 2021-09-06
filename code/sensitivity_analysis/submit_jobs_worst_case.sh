@@ -27,7 +27,7 @@ for stype in primary primary_dc lower_secondary lower_secondary_dc upper_seconda
 
 		echo "*********************"
 		echo run_data_creation_worst_case.py $stype $N_runs $m_idx $src $dst
-		python run_data_creation_worst_case.py $stype $N_runs $m_idx $src $dst &
+		python3 run_data_creation_worst_case.py $stype $N_runs $m_idx $src $dst &
 		echo "*********************"
 		sleep 1
 		

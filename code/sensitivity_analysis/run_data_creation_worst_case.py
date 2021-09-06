@@ -43,14 +43,14 @@ measures = {
 
 # model parameters
 model_params = {
-    'exposure_duration':[5.0, 1.9], # literature values
-    'time_until_symptoms':[6.4, 0.8], # literature values
+    'exposure_duration':[3.0, 1.9], # literature values
+    'time_until_symptoms':[4.4, 1.9], # literature values
     'infection_duration':[10.91, 3.95], # literature values
     'subclinical_modifier':0.6, 
-    'base_risk':0.0737411844049918,
+    'base_risk':0.1657575,
     'mask_filter_efficiency':{'exhale':0.5, 'inhale':0.7},
-    'infection_risk_contact_type_weights':{'very_far': 0, 'far': 0.75, 'intermediate': 0.85,'close': 1},
-    'age_transmission_discount':{'slope':-0.02, 'intercept':1},
+    'infection_risk_contact_type_weights':{'very_far': 0, 'far': 0.26, 'intermediate': 0.26,'close': 1},
+    'age_transmission_discount':{'slope':0, 'intercept':1},
     'age_symptom_discount':{'slope':-0.02868, 'intercept':0.7954411542069012},
     'verbosity':0
 }

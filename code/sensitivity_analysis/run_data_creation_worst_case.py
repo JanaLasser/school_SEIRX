@@ -184,7 +184,7 @@ def sample_prevention_strategies(screen_params, school, agent_types, measures,
           agent_types = agent_types, 
           age_transmission_risk_discount = \
                 model_params['age_transmission_discount'],
-          age_symptom_discount = model_params['age_symptom_discount'],
+          age_symptom_modification = model_params['age_symptom_discount'],
           mask_filter_efficiency = {'exhale':m_efficiency_exhale,
                                     'inhale':m_efficiency_inhale},
           transmission_risk_ventilation_modifier = ventilation_mod,

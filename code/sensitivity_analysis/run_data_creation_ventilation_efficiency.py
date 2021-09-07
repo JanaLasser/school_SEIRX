@@ -198,9 +198,9 @@ def sample_prevention_strategies(screen_params, school, agent_types, measures,
             ignore_index=True)
                 
         # dump the current model to later pick a representative run
-        N_infected = row['infected_agents']
-        fname = 'run_{}_N_{}'.format(r, int(N_infected))
-        af.compress_pickle(fname, tmp_path, model)
+        #N_infected = row['infected_agents']
+        #fname = 'run_{}_N_{}'.format(r, int(N_infected))
+        #af.compress_pickle(fname, tmp_path, model)
 
 
     # save the collected ensemble results

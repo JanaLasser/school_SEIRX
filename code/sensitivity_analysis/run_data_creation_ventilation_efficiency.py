@@ -268,6 +268,14 @@ m_idx = int(sys.argv[3]) # measure configuration index
 src = sys.argv[4]
 dst = sys.argv[5]
 
+src = join(src, school_type)
+dst = join(dst, school_type)
+
+try:
+    os.mkdir(dst)
+except FileExistsError:
+    pass
+
 # school layouts
 school_characteristics = {
     'primary':            {'classes':8, 'students':19},

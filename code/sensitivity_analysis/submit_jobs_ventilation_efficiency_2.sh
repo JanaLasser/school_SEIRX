@@ -6,13 +6,13 @@ date
 
 N_runs=500
           
-max_tasks=200                ## number of tasks per node.
+max_tasks=24                ## number of tasks per node.
 running_tasks=0              ## initialization
 src=../../data/contact_networks/representative_schools
 dst=../../data/sensitivity_analysis/simulation_results/ventilation_efficiency
 
 
-for stype in primary primary_dc lower_secondary lower_secondary_dc upper_secondary
+for stype in secondary
 	do
 	
 	for m_idx in $(seq 0 64)

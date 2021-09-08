@@ -77,7 +77,8 @@ def run_ventilation_efficiency(params):
 
 # check whether we are running in test or minimal mode and reduce parameter
 # list and N_runs accordingly
-params = dcf.check_simulation_mode(params, N_runs)
+min_cutoff = 15
+params = dcf.check_simulation_mode(params, N_runs, min_cutoff)
     
 # run the simulation in parallel on the available cores
 number_of_cores = dcf.get_number_of_cores()

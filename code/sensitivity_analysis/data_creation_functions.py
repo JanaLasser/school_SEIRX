@@ -236,6 +236,9 @@ def run_ensemble(N_runs, school_type, measures, simulation_params,
     school_src = join(contact_network_src, school_type)
     
 
+    #print(class_size_reduction)
+    #print(friendship_ratio)
+    
     # load the contact network, schedule and node_list corresponding to the school
     if (class_size_reduction == 0.0) and (friendship_ratio == 0.0):
         G = nx.readwrite.gpickle.read_gpickle(\
@@ -258,13 +261,22 @@ def run_ensemble(N_runs, school_type, measures, simulation_params,
             join(school_src , '{}_removed-{}_network.bz2'\
               .format(sname, class_size_reduction)))
     elif (class_size_reduction == 0) and (friendship_ratio != 0):
-        G = nx.readwrite.gpickle.read_gpickle(\
-            join(school_src , '{}_friends-{}_network.bz2'\
-              .format(sname, friendship_ratio)))
+        try:
+            G = nx.readwrite.gpickle.read_gpickle(\
+                join(school_src , '{}_friends-{}_network.bz2'\
+                  .format(sname, friendship_ratio)))
+        except FileNotFoundError:
+            G = nx.readwrite.gpickle.read_gpickle(\
+                join(school_src , '{}_removed-{}_friends-{}_network.bz2'\
+                  .format(sname, class_size_reduction, friendship_ratio)))
     elif (class_size_reduction == 0.5) and (friendship_ratio != 0):
         G = nx.readwrite.gpickle.read_gpickle(\
             join(school_src , '{}_friends-{}_network_half.bz2'\
               .format(sname, friendship_ratio)))
+    elif (class_size_reduction == 0.3) and (friendship_ratio == 0.2):
+        G = nx.readwrite.gpickle.read_gpickle(\
+            join(school_src , '{}_removed-{}_friends-{}_network.bz2'\
+              .format(sname, class_size_reduction, friendship_ratio)))
     else:
         print('combination of class_size_reduction and friendship_ratio ' +\
               'not supported, aborting!')
@@ -527,6 +539,8 @@ def set_measure_packages_reduced_class_size(data):
                   'all measures'
     
     
+# note: the transmissibility simulations use the same function to assign
+# measure scenarios, since the scenarios are the same
 def set_measure_packages_added_friendship_contacts(data):
     # added friendship contacts
     data.loc[data[(data['ventilation_mod'] == 1.0) & \
@@ -568,5 +582,81 @@ def set_measure_packages_added_friendship_contacts(data):
                   (data['teacher_screen_interval'] == 3) & \
                   (data['class_size_reduction'] == 0.5)].index, 'measure'] = \
                   'all measures'
+    
+
+def set_measure_packages_worst_case(data):
+    # no measures
+    data.loc[data[(data['ventilation_mod'] == 1) & \
+                  (data['student_mask'] == False) & \
+                  (data['teacher_mask'] == False) & \
+                  (data['student_screen_interval'] == 'never') & \
+                  (data['teacher_screen_interval'] == 'never') & \
+                  (data['class_size_reduction'] == 0)].index, 'measure'] = \
+                  'no measures'
+    # ventilation + masks teachers AND students + reduced class size
+    data.loc[data[(data['ventilation_mod'] == 0.8) & \
+                  (data['student_mask'] == True) & \
+                  (data['teacher_mask'] == True) & \
+                  (data['student_screen_interval'] == 'never') & \
+                  (data['teacher_screen_interval'] == 'never') & \
+                  (data['class_size_reduction'] == 0.3)].index, 'measure'] = \
+                  'ventilation + masks teachers + masks students + reduced class size'
+    # ventilation + testing 1x / week teachers AND students
+    data.loc[data[(data['ventilation_mod'] == 0.8) & \
+                  (data['student_mask'] == False) & \
+                  (data['teacher_mask'] == False) & \
+                  (data['student_screen_interval'] == 7) & \
+                  (data['teacher_screen_interval'] == 7) & \
+                  (data['class_size_reduction'] == 0.3)].index, 'measure'] = \
+                  'ventilation + tests teachers 1x + tests students 1x'
+    # ventilation + testing 2x / week teachers AND students
+    data.loc[data[(data['ventilation_mod'] == 0.8) & \
+                  (data['student_mask'] == False) & \
+                  (data['teacher_mask'] == False) & \
+                  (data['student_screen_interval'] == 3) & \
+                  (data['teacher_screen_interval'] == 3) & \
+                  (data['class_size_reduction'] == 0.0)].index, 'measure'] = \
+                  'ventilation + tests teachers 2x + tests students 2x'
+    # ventilation + testing 1x /week + masks teachers AND students
+    data.loc[data[(data['ventilation_mod'] == 0.8) & \
+                  (data['student_mask'] == True) & \
+                  (data['teacher_mask'] == True) & \
+                  (data['student_screen_interval'] == 7) & \
+                  (data['teacher_screen_interval'] == 7) & \
+                  (data['class_size_reduction'] == 0.0)].index, 'measure'] = \
+                  'ventilation + tests teachers 1x + tests students 1x + masks teachers + masks students'   
+    # ventilation + testing 2x /week + masks teachers AND students
+    data.loc[data[(data['ventilation_mod'] == 0.8) & \
+                  (data['student_mask'] == True) & \
+                  (data['teacher_mask'] == True) & \
+                  (data['student_screen_interval'] == 3) & \
+                  (data['teacher_screen_interval'] == 3) & \
+                  (data['class_size_reduction'] == 0.0)].index, 'measure'] = \
+                  'ventilation + tests teachers 2x + tests students 2x + masks teachers + masks students' 
+    # ventilation + tests teachers AND students 1x / week + reduced class size
+    data.loc[data[(data['ventilation_mod'] == 0.8) & \
+                  (data['student_mask'] == False) & \
+                  (data['teacher_mask'] == False) & \
+                  (data['student_screen_interval'] == 7) & \
+                  (data['teacher_screen_interval'] == 7) & \
+                  (data['class_size_reduction'] == 0.3)].index, 'measure'] = \
+                  'ventilation + tests teachers 1x + tests students 1x + reduced class size'
+    # ventilation + tests teachers AND students 2x / week + reduced class size
+    data.loc[data[(data['ventilation_mod'] == 0.8) & \
+                  (data['student_mask'] == False) & \
+                  (data['teacher_mask'] == False) & \
+                  (data['student_screen_interval'] == 3) & \
+                  (data['teacher_screen_interval'] == 3) & \
+                  (data['class_size_reduction'] == 0.3)].index, 'measure'] = \
+                  'ventilation + tests teachers 2x + tests students 2x + reduced class size'
+    # all measures
+    data.loc[data[(data['ventilation_mod'] == 0.8) & \
+                  (data['student_mask'] == True) & \
+                  (data['teacher_mask'] == True) & \
+                  (data['student_screen_interval'] == 3) & \
+                  (data['teacher_screen_interval'] == 3) & \
+                  (data['class_size_reduction'] == 0.3)].index, 'measure'] = \
+                  'all measures'
+    
     
 

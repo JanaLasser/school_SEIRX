@@ -363,6 +363,7 @@ def check_simulation_mode(params, N_runs):
         if mod == 'test':
             test = True
             N_runs = 1
+            params = [(0, *p[1:]) for p in params]
         # do we just want to create the minimum necessary simulations?
         elif mod == 'min':
             minimum_parameters = True
@@ -383,8 +384,15 @@ def check_simulation_mode(params, N_runs):
         print('There are {} parameter combinations to sample with {} runs each.'\
           .format(len(params), N_runs))
         
-    return params, N_runs
+    return params
         
+    
+def format_none_column(x):
+    if x == 'None':
+        return None
+    else:
+        return int(x)
+    
 
 def set_measure_packages_ventilation_efficiency(data):
     # ventilation only

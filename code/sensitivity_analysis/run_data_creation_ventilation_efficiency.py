@@ -24,7 +24,7 @@ N_runs = int(sys.argv[2])
     
 ## I/O
 # source of the contact networks for the calibration runs. 
-contact_network_src = '../../../data/contact_networks/representative_schools'
+contact_network_src = '../../data/contact_networks/representative_schools'
 # destination of the generated data
 dst = '../../data/sensitivity_analysis/simulation_results/ventilation_efficiency'  
     
@@ -41,8 +41,8 @@ with open('params/sensitivity_analysis_school_characteristics.json', 'r') as fp:
 screening_params = pd.read_csv(join('screening_params', 'ventilation_efficiency.csv'))
 params = [(N_runs, st, 
            row['index_case'],
-           format_none_column(row['s_screen_interval']),
-           format_none_column(row['t_screen_interval']),
+           dcf.format_none_column(row['s_screen_interval']),
+           dcf.format_none_column(row['t_screen_interval']),
            row['s_mask'],
            row['t_mask'], 
            row['class_size_reduction'],
@@ -77,7 +77,7 @@ def run_ventilation_efficiency(params):
 
 # check whether we are running in test or minimal mode and reduce parameter
 # list and N_runs accordingly
-params, N_runs = dcf.check_simulation_mode(params, N_runs)
+params = dcf.check_simulation_mode(params, N_runs)
     
 # run the simulation in parallel on the available cores
 number_of_cores = dcf.get_number_of_cores()

@@ -101,5 +101,5 @@ index_cols = ['school_type', 'index_case',
 other_cols = [c for c in results.columns if c not in index_cols]
 results = results[index_cols + other_cols]
 
-results.to_csv(join(dst, 'testing_rate_{}.csv'\
-                   .format(N_runs)), index=False)
+results.to_csv(join(dst, 'testing_rate_{}_{}.csv'\
+                   .format(st, N_runs)), index=False)

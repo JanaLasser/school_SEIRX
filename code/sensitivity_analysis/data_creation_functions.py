@@ -354,7 +354,7 @@ def get_number_of_cores():
     return(number_of_cores)
 
 
-def check_simulation_mode(params, N_runs):
+def check_simulation_mode(params, N_runs, min_cutoff):
     minimum_parameters = False
     test = False
     try:
@@ -377,7 +377,7 @@ def check_simulation_mode(params, N_runs):
         print('This is a testrun, scanning only {} parameters with {} runs each.'\
               .format(len(params), N_runs))
     elif minimum_parameters:
-        params = params[0:15]
+        params = params[0:min_cutoff]
         print('Running the minimum number of necessary simulations ({})'\
               .format(len(params)))
     else:

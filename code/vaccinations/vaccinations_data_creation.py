@@ -74,8 +74,10 @@ transmission_risk_ventilation_modifiers = [1, 0.36]
 student_vaccination_ratios = [0.0, 0.5]
 # specifies the ratio of vaccinated teachers
 teacher_vaccination_ratios = [0.5]
+# specifies the ratio of vaccinated family members
+family_member_faccination_ratios = [0.6]
 
-params = [(N_runs, i, j, k, l, m, n, o, p, q, r, s)\
+params = [(N_runs, i, j, k, l, m, n, o, p, q, r, s, t)\
               for i in school_types \
               for j in index_cases \
               for k in test_types \
@@ -86,7 +88,8 @@ params = [(N_runs, i, j, k, l, m, n, o, p, q, r, s)\
               for p in half_classes \
               for q in transmission_risk_ventilation_modifiers \
               for r in student_vaccination_ratios \
-              for s in teacher_vaccination_ratios]
+              for s in teacher_vaccination_ratios \
+              for t in family_member_faccination_ratios]
 
 if test:
     params = params[0:10]
@@ -122,7 +125,8 @@ def run(params):
     # extract the simulation parameters from the parameter list
     N_runs, school_type, index_case, ttype, s_screen_interval, t_screen_interval,\
         student_mask, teacher_mask, half_classes, ventilation_mod,\
-        student_vaccination_ratio, teacher_vaccination_ratio = params
+        student_vaccination_ratio, teacher_vaccination_ratio \
+        family_member_faccination_ratios = params
     
     try:
         os.mkdir(join(dst, school_type))
@@ -132,9 +136,13 @@ def run(params):
     # run the ensemble with the given parameter combination and school type
     ensmbl_results = run_ensemble(N_runs, school_type, measures,\
             simulation_params, school_characteristics, contact_network_src,\
-            dst, index_case, ttype, s_screen_interval, t_screen_interval,\
-            student_mask, teacher_mask, half_classes, ventilation_mod,
-             student_vaccination_ratio, teacher_vaccination_ratio)
+            dst, index_case, ttype=ttype, s_screen_interval=s_screen_interval,
+            t_screen_interval=t_screen_interval, student_mask=student_mask,
+            teacher_mask=teacher_mask, half_classes=half_classes,
+            ventilation_mod=ventilation_mod, 
+            student_vaccination_ratio=student_vaccination_ratio,
+            teacher_vaccination_ratio=teacher_vaccination_ratio,
+            family_member_vaccination_ratio=family_member_vaccination_ratio)
     
     ensmbl_results['school_type'] = school_type
     ensmbl_results['index_case'] = index_case
@@ -147,6 +155,8 @@ def run(params):
     ensmbl_results['ventilation_mod'] = ventilation_mod
     ensmbl_results['student_vaccination_ratio'] = student_vaccination_ratio
     ensmbl_results['teacher_vaccination_ratio'] = teacher_vaccination_ratio
+    ensmbl_results['family_member_vaccination_ratio'] = \
+        family_member_vaccination_ratio
     
     return ensmbl_results
 
@@ -182,7 +192,7 @@ index_cols = ['school_type', 'index_case', 'test_type',
               'student_screen_interval', 'teacher_screen_interval',
               'student_mask', 'teacher_mask', 'half_classes',
               'ventilation_mod', 'student_vaccination_ratio',
-              'teacher_vaccination_ratio']
+              'teacher_vaccination_ratio', 'family_member_vaccination_ratio']
 other_cols = [c for c in results.columns if c not in index_cols]
 results = results[index_cols + other_cols]
 

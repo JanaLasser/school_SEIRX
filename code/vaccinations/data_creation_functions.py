@@ -57,7 +57,7 @@ def run_model(G, agent_types, measures, simulation_params, index_case,
               t_screen_interval=None, student_mask=False, 
               teacher_mask=False, half_classes=False, ventilation_mod=1,
               student_vaccination_ratio=0, teacher_vaccination_ratio=0,
-              seed=None, N_steps=1000):
+              family_member_vaccination_ratio=0, seed=None, N_steps=1000):
     '''
     Runs a simulation with an SEIRX_school model 
     (see https://pypi.org/project/scseirx/1.3.0/), given a set of parameters 

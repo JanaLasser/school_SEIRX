@@ -380,7 +380,7 @@ def check_simulation_mode(params, N_runs, min_cutoff):
         # do we just want to create the minimum necessary simulations?
         elif mod == 'min':
             minimum_parameters = True
-        elif mod == 'last'
+        elif mod == 'last':
             last = True
         else:
             print('unknown command line parameter {}'.format(test))

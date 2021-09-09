@@ -369,6 +369,7 @@ def get_number_of_cores():
 def check_simulation_mode(params, N_runs, min_cutoff):
     minimum_parameters = False
     test = False
+    last = False
     try:
         mod = sys.argv[3]
         # is this a test run?
@@ -379,6 +380,8 @@ def check_simulation_mode(params, N_runs, min_cutoff):
         # do we just want to create the minimum necessary simulations?
         elif mod == 'min':
             minimum_parameters = True
+        elif mod == 'last'
+            last = True
         else:
             print('unknown command line parameter {}'.format(test))
     except IndexError:
@@ -392,6 +395,8 @@ def check_simulation_mode(params, N_runs, min_cutoff):
         params = params[0:min_cutoff]
         print('Running the minimum number of necessary simulations ({})'\
               .format(len(params)))
+    elif last:
+        params = params[min_cutoff - 1:min_cutoff]
     else:
         print('There are {} parameter combinations to sample with {} runs each.'\
           .format(len(params), N_runs))

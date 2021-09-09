@@ -35,12 +35,7 @@ with open('params/sensitivity_analysis_simulation_parameters.json', 'r') as fp:
 with open('params/sensitivity_analysis_school_characteristics.json', 'r') as fp:
     school_characteristics = json.load(fp)
     
-    
-# number of runs in the ensemble
-N_runs = 10
-# different school types
-school_types = ['primary', 'primary_dc', 'lower_secondary',
-                'lower_secondary_dc', 'upper_secondary', 'secondary'][0:1]
+
 # load the other screening parameters from file
 screening_params = pd.read_csv(join('screening_params', 'transmissibility.csv'))
 

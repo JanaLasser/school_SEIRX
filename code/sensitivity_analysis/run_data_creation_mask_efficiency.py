@@ -76,7 +76,7 @@ def run_mask_efficiency(params):
 
 # check whether we are running in test or minimal mode and reduce parameter
 # list and N_runs accordingly
-min_cutoff = 13
+min_cutoff = 14
 params = dcf.check_simulation_mode(params, N_runs, min_cutoff)
     
 # run the simulation in parallel on the available cores

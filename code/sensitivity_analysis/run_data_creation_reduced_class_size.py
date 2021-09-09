@@ -75,7 +75,7 @@ def run_reduced_class_size(params):
 
 # check whether we are running in test or minimal mode and reduce parameter
 # list and N_runs accordingly
-min_cutoff = 15
+min_cutoff = 16
 params = dcf.check_simulation_mode(params, N_runs, min_cutoff)
     
 # run the simulation in parallel on the available cores

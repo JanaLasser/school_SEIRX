@@ -5,7 +5,7 @@ python3 run_data_creation_ventilation_efficiency.py lower_secondary_dc 500 last 
 python3 run_data_creation_ventilation_efficiency.py upper_secondary 500 last &
 python3 run_data_creation_ventilation_efficiency.py secondary 500 last &
 
-python3 run_data_creation_testing_rate.py primary 500 last
+python3 run_data_creation_testing_rate.py primary 500 last &
 python3 run_data_creation_testing_rate.py primary_dc 500 last &
 python3 run_data_creation_testing_rate.py lower_secondary 500 last &
 python3 run_data_creation_testing_rate.py lower_secondary_dc 500 last &

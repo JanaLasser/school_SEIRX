@@ -78,7 +78,7 @@ for i, ep in enumerate(screening_params):
     
     hostname = socket.gethostname()
     if hostname == 'desiato':
-        number_of_cores = 200 # desiato
+        number_of_cores = 250 # desiato
         print('running on {}, using {} cores'.format(hostname, number_of_cores))
     elif hostname == 'T14s':
         number_of_cores = 14 # laptop

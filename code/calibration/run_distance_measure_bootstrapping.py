@@ -94,6 +94,8 @@ for i, ep in enumerate(screening_params):
     for res in tqdm(pool.imap_unordered(func=run_all_distances,
                     iterable=bootstrap_params), total=len(bootstrap_params)):
         bootstrapping_results = bootstrapping_results.append(res, ignore_index=True)
+        
+    pool.close()
     
 bootstrapping_results.to_csv(join(dst, 'bootstrapping_results_{}.csv'\
                                 .format(N_bootstrap)), index=False)

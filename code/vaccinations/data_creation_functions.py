@@ -232,7 +232,7 @@ def run_ensemble(N_runs, school_type, measures, simulation_params,
     agent_types['teacher']['vaccination_ratio'] = teacher_vaccination_ratio
     agent_types['family_member']['vaccination_ratio'] = \
             family_member_vaccination_ratio
-
+    
     sname = '{}_classes-{}_students-{}'.format(school_type,
                 characteristics['classes'], characteristics['students'])
     school_src = join(contact_network_src, school_type)
@@ -450,3 +450,10 @@ def set_measure_packages(data):
                   (data['teacher_screening_interval'] == 3) & \
                   (data['half_classes'] == True)].index, 'measure'] = \
                   'all measures'
+    
+    
+def format_none_column(x):
+    if x == 'None':
+        return None
+    else:
+        return int(x)

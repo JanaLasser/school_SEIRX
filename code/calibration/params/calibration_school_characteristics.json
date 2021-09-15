@@ -1,1 +1,8 @@
-{"primary": {"classes": 8, "students": 19}, "primary_dc": {"classes": 8, "students": 19}, "lower_secondary": {"classes": 8, "students": 18}, "lower_secondary_dc": {"classes": 8, "students": 18}, "upper_secondary": {"classes": 10, "students": 23}, "secondary": {"classes": 28, "students": 24}, "secondary_dc": {"classes": 28, "students": 24}}
+{
+	"primary": {"classes": 8, "students": 19},
+	"primary_dc": {"classes": 8, "students": 19},
+	"lower_secondary": {"classes": 8, "students": 18},
+	"lower_secondary_dc": {"classes": 8, "students": 18},
+	"upper_secondary": {"classes": 10, "students": 23},
+	"secondary": {"classes": 28, "students": 24}
+}

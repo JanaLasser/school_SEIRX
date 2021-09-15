@@ -307,10 +307,9 @@ def run_ensemble(N_runs, school_type, measures, simulation_params,
             '_csizered-{}_fratio-{}_svacc-{}_tvacc-{}_fvacc-{}'\
             .format(class_size_reduction, friendship_ratio, 
                     student_vaccination_ratio, teacher_vaccination_ratio,
-                    family_member_vaccination_ratio)
-    
-    if age_transmission_discount:
-        measure_string += '_atd-{}'.format(age_transmission_discount)
+                    family_member_vaccination_ratio) +\
+            'atd-{}_cw-{}'\
+            .format(age_transmission_discount, contact_weight)
     
     spath_ensmbl = join(res_path, school_type)
     

@@ -33,11 +33,11 @@ python3 run_data_creation_reduced_class_size.py lower_secondary_dc 500 last &
 python3 run_data_creation_reduced_class_size.py upper_secondary 500 last &
 python3 run_data_creation_reduced_class_size.py secondary 500 last &
 
-python3 run_data_creation_added_friendship_cotacts.py primary 500 last &
-python3 run_data_creation_added_friendship_cotacts.py primary_dc 500 last &
-python3 run_data_creation_added_friendship_cotacts.py lower_secondary 500 last &
-python3 run_data_creation_added_friendship_cotacts.py lower_secondary_dc 500 last &
-python3 run_data_creation_added_friendship_cotacts.py upper_secondary 500 last &
+python3 run_data_creation_added_friendship_contacts.py primary 500 last &
+python3 run_data_creation_added_friendship_contacts.py primary_dc 500 last &
+python3 run_data_creation_added_friendship_contacts.py lower_secondary 500 last &
+python3 run_data_creation_added_friendship_contacts.py lower_secondary_dc 500 last &
+python3 run_data_creation_added_friendship_contacts.py upper_secondary 500 last &
 
 python3 run_data_creation_transmissibility.py primary 500 last &
 python3 run_data_creation_transmissibility.py primary_dc 500 last &

@@ -141,7 +141,8 @@ def run_ensemble(N_runs, school_type, measures, simulation_params,
             mask_efficiency_exhale=0.5, mask_efficiency_inhale=0.7,
             class_size_reduction=0.0, friendship_ratio=0.0,
             student_vaccination_ratio=0.0, teacher_vaccination_ratio=0.0,
-            family_member_vaccination_ratio=0.0, age_transmission_discount=0):
+            family_member_vaccination_ratio=0.0, age_transmission_discount=-0.005,
+            contact_weight=0.3):
     '''
     Utility function to run an ensemble of simulations for a given school type
     and parameter combination.
@@ -229,6 +230,10 @@ def run_ensemble(N_runs, school_type, measures, simulation_params,
             mask_efficiency_inhale
     simulation_params['age_transmission_discount']['slope'] = \
         age_transmission_discount
+    simulation_params['infection_risk_contact_type_weights']['far'] \
+        = contact_weight
+    simulation_params['infection_risk_contact_type_weights']['intermediate'] \
+        = contact_weight
     
     measures['preventive_screening_test_type'] = ttype
     measures['transmission_risk_ventilation_modifier'] = ventilation_mod
@@ -347,6 +352,7 @@ def run_ensemble(N_runs, school_type, measures, simulation_params,
     ensmbl_results['family_member_vaccination_ratio'] = \
             family_member_vaccination_ratio
     ensmbl_results['age_transmission_discount'] = age_transmission_discount
+    ensmbl_results['contact_weight'] = contact_weight
         
     ensmbl_results.to_csv(join(spath_ensmbl, measure_string + '.csv'))
         

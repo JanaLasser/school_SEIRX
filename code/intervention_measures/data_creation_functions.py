@@ -430,3 +430,10 @@ def set_measure_packages(data):
                   (data['teacher_screening_interval'] == 3) & \
                   (data['half_classes'] == True)].index, 'measure'] = \
                   'all measures'
+    
+    
+def format_none_column(x):
+    if x == 'None':
+        return None
+    else:
+        return int(x)

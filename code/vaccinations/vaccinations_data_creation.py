@@ -3,7 +3,7 @@ from os.path import join
 import os
 import sys
 import json
-import data creation functions as dcf
+import data_creation_functions as dcf
 
 # custom libraries
 currentdir = os.getcwd()

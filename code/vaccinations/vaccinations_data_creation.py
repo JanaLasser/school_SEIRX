@@ -3,6 +3,7 @@ from os.path import join
 import os
 import sys
 import json
+import data creation functions as dcf
 
 # custom libraries
 currentdir = os.getcwd()
@@ -82,25 +83,6 @@ else:
 
 ## simulation runs
 def run(params):
-    '''
-    Runs an ensemble of simulations and collects observable statistics. To be 
-    run in parallel on many workers. Note: I/O paths and the number of runs per 
-    ensemble hare hard coded here, because I only want to pass the parameter 
-    values that are being screened in the simulation run to the function via the
-    parallel processing interface.
-    
-    Parameters:
-    -----------
-    param_list : iterable
-        Iterable that contains the values for the parameters test_type, 
-        index_case, e_screen_range and r_screen_range that are passed to the
-        simulation.
-        
-    Returns:
-    --------
-    row : dictionary
-        Dictionary of the ensemble statistics of the observables.
-    '''    
 
     # extract the simulation parameters from the parameter list
     N_runs, school_type, index_case, ttype, s_screen_interval, t_screen_interval,\

@@ -55,41 +55,21 @@ with open('params/vaccinations_school_characteristics.json', 'r') as fp:
 
 
 ## parameter grid for which simulations will be run
-# specifies whether the index case will be introduced via an
-# employee or a resident
-index_cases = ['student', 'teacher']
-# test technologies (and test result turnover times) used in the
-# different scenarios
-test_types = ['same_day_antigen']
-# student and teacher streening intervals (in days)
-s_screen_range = [None, 3, 7]
-t_screen_range = [None, 3, 7]
-# specifies whether teachers wear masks
-student_masks = [True, False]
-teacher_masks = [True, False]
-half_classes = [True, False]
-# specifies whether there is ventilation or not
-transmission_risk_ventilation_modifiers = [1, 0.36]
-# specifies the ratio of vaccinated students 
-student_vaccination_ratios = [0.0, 0.5]
-# specifies the ratio of vaccinated teachers
-teacher_vaccination_ratios = [0.5]
-# specifies the ratio of vaccinated family members
-family_member_faccination_ratios = [0.6]
+screening_params = pd.read_csv(join('screening_params', 'vaccinations.csv'))
 
-params = [(N_runs, i, j, k, l, m, n, o, p, q, r, s, t)\
-              for i in school_types \
-              for j in index_cases \
-              for k in test_types \
-              for l in s_screen_range \
-              for m in t_screen_range \
-              for n in student_masks \
-              for o in teacher_masks \
-              for p in half_classes \
-              for q in transmission_risk_ventilation_modifiers \
-              for r in student_vaccination_ratios \
-              for s in teacher_vaccination_ratios \
-              for t in family_member_faccination_ratios]
+params = [(N_runs, st, 
+           row['index_case'],
+           dcf.format_none_column(row['s_screen_interval']),
+           dcf.format_none_column(row['t_screen_interval']),
+           row['s_mask'],
+           row['t_mask'], 
+           row['half_classes'],
+           row['ventilation_modification'],
+           row['student_vaccination_ratio'],
+           row['teacher_vaccination_ratio'],
+           row['family_member_vaccination_ratio']) \
+           for st in school_types \
+           for i, row in screening_params.iterrows()]
 
 if test:
     params = params[0:10]

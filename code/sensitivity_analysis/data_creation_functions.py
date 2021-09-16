@@ -242,9 +242,6 @@ def run_ensemble(N_runs, school_type, measures, simulation_params,
                 characteristics['classes'], characteristics['students'])
     school_src = join(contact_network_src, school_type)
     
-
-    #print(class_size_reduction)
-    #print(friendship_ratio)
     
     # load the contact network, schedule and node_list corresponding to the school
     if (class_size_reduction == 0.0) and (friendship_ratio == 0.0):
@@ -308,7 +305,7 @@ def run_ensemble(N_runs, school_type, measures, simulation_params,
             .format(class_size_reduction, friendship_ratio, 
                     student_vaccination_ratio, teacher_vaccination_ratio,
                     family_member_vaccination_ratio) +\
-            'atd-{}_cw-{}'\
+            '_atd-{}_cw-{}'\
             .format(age_transmission_discount, contact_weight)
     
     spath_ensmbl = join(res_path, school_type)

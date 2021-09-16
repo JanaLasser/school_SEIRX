@@ -90,7 +90,7 @@ class MidpointNormalize(colors.Normalize):
         return np.ma.masked_array(np.interp(value, x, y), np.isnan(value))
     
     
-def get_data(stype, src_path, vaccinations=False):
+def get_data(stype, src_path):
     '''
     Convenience function to read all ensembles from different measures
     of a given school type and return one single data frame
@@ -99,15 +99,7 @@ def get_data(stype, src_path, vaccinations=False):
     stype_path = join(src_path, stype)
     files = os.listdir(stype_path)
     for f in files:
-        params, agents, half = get_measures(f.strip('.csv'), 
-                                            vaccinations=vaccinations)
-        
-        if vaccinations:
-            params['student_test_rate'] = 1
-            params['teacher_test_rate'] = 1
-            params['mask_efficiency_exhale'] = 0.7
-            params['mask_efficiency_inhale'] = 0.5
-            params['base_transmission_risk_multiplier'] = 1.0
+        params, agents, half = get_measures(f.strip('.csv'))
 
         ensmbl = pd.read_csv(join(stype_path, f))
         try:
@@ -159,6 +151,8 @@ def get_data(stype, src_path, vaccinations=False):
             ['vaccination_ratio']
         ensmbl['family_member_vaccination_ratio'] = agents['family_member']\
             ['vaccination_ratio']
+        ensmbl['contact_weight'] = params['contact_weight']
+        ensmbl['age_transmission_discount'] = params['age_transmission_discount']
         
         data = pd.concat([data, ensmbl])
 
@@ -170,7 +164,7 @@ def get_data(stype, src_path, vaccinations=False):
     return data
 
 
-def get_measures(measure_string, vaccinations=False):
+def get_measures(measure_string):
     '''
     Convenience function to get the individual measures given a string 
     (filename) of measures.
@@ -198,21 +192,14 @@ def get_measures(measure_string, vaccinations=False):
     stype, _ = measure_string.split('_test')
     rest = measure_string.split(stype + '_')[1]
     
-    if vaccinations:
-        ttpype, turnover, index, tf, sf, tmask, smask, half, vent, tvacc,\
-        svacc = rest.split('_')
-        
-        fvacc = 'fvacc-0.6'
-        tmp = [ttpype, turnover, index, tf, sf, tmask, smask, half, vent,\
-               tvacc, svacc, fvacc]
-    else:
-        ttpype, turnover, index, tf, sf, tmask, smask, vent, stestrate, \
-        ttestrate, trisk, meffexh, meffinh, csizered, fratio, svacc, tvacc, \
-        fvacc = rest.split('_')
-    
-        tmp = [ttpype, turnover, index, tf, sf, tmask, smask, vent, stestrate,\
-           ttestrate, trisk, meffexh, meffinh, csizered, fratio, svacc, tvacc,\
-           fvacc]
+
+    ttpype, turnover, index, tf, sf, tmask, smask, vent, stestrate, \
+    ttestrate, trisk, meffexh, meffinh, csizered, fratio, svacc, tvacc, \
+    fvacc, atd, cw = rest.split('_')
+
+    tmp = [ttpype, turnover, index, tf, sf, tmask, smask, vent, stestrate,\
+       ttestrate, trisk, meffexh, meffinh, csizered, fratio, svacc, tvacc,\
+       fvacc, atd, cw]
         
 
     tmp = [m.split('-') for m in tmp]
@@ -260,6 +247,10 @@ def get_measures(measure_string, vaccinations=False):
             agents['student']['vaccination_ratio'] = float(m[1])
         elif m[0] == 'fvacc':
             agents['family_member']['vaccination_ratio'] = float(m[1])
+        elif m[0] == 'atd':
+            params['age_transmission_discount'] = -float(m[2])
+        elif m[0] == 'cw':
+            params['contact_weight'] = float(m[1])
         else:
             print('unknown measure type ', m[0])
             
@@ -378,6 +369,7 @@ def get_test_sensitivity_data(src_path, params, baseline_data,
                 (baseline_data['teacher_mask'] == teacher_mask) &\
                 (baseline_data['class_size_reduction'] == class_size_reduction) &\
                 (baseline_data['ventilation_modification'] == vent_mod)]
+    
     test_sensitivity_data = pd.concat([test_sensitivity_data, \
                             baseline_chunk[test_sensitivity_data.columns].copy()])
     

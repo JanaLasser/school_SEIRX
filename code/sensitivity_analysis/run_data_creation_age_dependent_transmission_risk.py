@@ -24,7 +24,7 @@ N_runs = int(sys.argv[2])
 # source of the contact networks for the calibration runs. 
 contact_network_src = '../../data/contact_networks/representative_schools'
 # destination of the generated data
-dst = '../../data/sensitivity_analysis/simulation_results/worst_case'  
+dst = '../../data/sensitivity_analysis/simulation_results/age_dependent_transmission_risk'  
 
 with open('params/sensitivity_analysis_measures.json', 'r') as fp:
     measures = json.load(fp)

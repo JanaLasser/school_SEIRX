@@ -85,7 +85,7 @@ else:
 def run(params):
 
     # extract the simulation parameters from the parameter list
-    N_runs, school_type, index_case, ttype, s_screen_interval, t_screen_interval,\
+    N_runs, school_type, index_case, s_screen_interval, t_screen_interval,\
         student_mask, teacher_mask, half_classes, ventilation_mod,\
         student_vaccination_ratio, teacher_vaccination_ratio, \
         family_member_vaccination_ratio = params
@@ -95,6 +95,8 @@ def run(params):
     except FileExistsError:
         pass
 
+    ttype = 'same_day_antigen'
+    
     # run the ensemble with the given parameter combination and school type
     ensmbl_results = run_ensemble(N_runs, school_type, measures,\
             simulation_params, school_characteristics, contact_network_src,\

@@ -23,3 +23,9 @@ student,3,3,FALSE,FALSE,TRUE,0.36
 teacher,3,3,FALSE,FALSE,TRUE,0.36
 student,3,3,TRUE,TRUE,FALSE,0.36
 teacher,3,3,TRUE,TRUE,FALSE,0.36
+student,7,7,FALSE,FALSE,FALSE,1
+teacher,7,7,FALSE,FALSE,FALSE,1
+student,None,None,TRUE,TRUE,FALSE,1
+teacher,None,None,TRUE,TRUE,FALSE,1
+student,None,None,FALSE,FALSE,FALSE,1
+teacher,None,None,FALSE,FALSE,FALSE,1

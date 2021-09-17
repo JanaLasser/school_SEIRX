@@ -1,2 +1,0 @@
-python vaccinations_data_creation.py upper_secondary 500 
-python vaccinations_data_creation.py secondary 500 

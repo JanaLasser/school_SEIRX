@@ -247,7 +247,12 @@ def get_measures(measure_string):
         elif m[0] == 'fvacc':
             agents['family_member']['vaccination_ratio'] = float(m[1])
         elif m[0] == 'atd':
-            params['age_transmission_discount'] = -float(m[2])
+            if len(m) == 3:
+                params['age_transmission_discount'] = -float(m[2])
+            elif len(m) == 2:
+                params['age_transmission_discount'] = 0
+            else:
+                'something unexpected happened here!'
         elif m[0] == 'cw':
             params['contact_weight'] = float(m[1])
         else:
@@ -737,6 +742,70 @@ def get_added_friendship_contacts_data(src_path, params, baseline_data,
     return added_friendship_contacts_data
 
 
+def get_transmissibility_data(src_path, params,
+        school_types=['primary', 'primary_dc', 'lower_secondary',
+                      'lower_secondary_dc', 'upper_secondary', 'secondary'],
+        observables_of_interest=['infected_agents', 'R0']):
+    
+    transmissibility_data = pd.DataFrame()
+    
+    for stype in school_types:
+        print('\t{}'.format(stype))
+        stype_data = get_data(stype, src_path)
+
+        for i, screening_params in params.iterrows():
+            index_case, s_screen_interval, t_screen_interval, student_mask, \
+            teacher_mask, class_size_reduction, vent_mod, trisk_mod = screening_params
+
+            # calculate the ensemble statistics for each measure combination 
+            measure_data = stype_data[\
+                (stype_data['preventive_test_type'] == 'same_day_antigen') &\
+                (stype_data['index_case'] == index_case) &\
+                (stype_data['student_screening_interval'] == s_screen_interval) &\
+                (stype_data['teacher_screening_interval'] == t_screen_interval) &\
+                (stype_data['student_mask'] == student_mask) &\
+                (stype_data['teacher_mask'] == teacher_mask) &\
+                (stype_data['class_size_reduction'] == class_size_reduction) &\
+                (stype_data['transmission_risk_ventilation_modifier'] == vent_mod) &\
+                (stype_data['base_transmission_risk_multiplier'] == trisk_mod)
+                                     ]
+
+            if len(measure_data) == 0:
+                print('WARNING: empty measure data for {}'.format(screening_params))
+
+            row = {'school_type':stype,
+                   'test_type':'antigen',
+                   'turnover':0,
+                   'index_case':index_case,
+                   'student_screen_interval':s_screen_interval,
+                   'teacher_screen_interval':t_screen_interval,
+                   'student_mask':student_mask,
+                   'teacher_mask':teacher_mask,
+                   'ventilation_modification':vent_mod,
+                   'test_sensitivity':1.0,
+                   'class_size_reduction':0.0,
+                   'student_testing_rate':1.0,
+                   'teacher_testing_rate':1.0,
+                   'mask_efficiency_inhale':0.7,
+                   'mask_efficiency_exhale':0.5,
+                   'base_transmission_risk_multiplier':trisk_mod,
+                   'friendship_ratio':0,
+                   'student_vaccination_ratio':0,
+                   'teacher_vaccination_ratio':0,
+                   'family_member_vaccination_ratio':0}
+
+            for col in observables_of_interest:
+                row.update(af.get_statistics(measure_data, col))
+
+            transmissibility_data = \
+                    transmissibility_data.append(row, ignore_index=True)
+
+    transmissibility_data.to_csv(join(src_path.split('/ensembles')[0],
+                            'transmissibility_observables.csv'), index=False)  
+    
+    return transmissibility_data
+
+
 def get_worst_case_data(src_path, params,
         school_types=['primary', 'primary_dc', 'lower_secondary',
                       'lower_secondary_dc', 'upper_secondary', 'secondary'],
@@ -801,7 +870,9 @@ def get_worst_case_data(src_path, params,
             worst_case_data = \
                     worst_case_data.append(row, ignore_index=True)
             
-    worst_case_data['scenario'] = 'conservative'
+    worst_case_data.to_csv(join(src_path.split('/ensembles')[0],
+                            'worst_case_data_observables.csv'), index=False) 
+        
     return worst_case_data
 
 
@@ -881,6 +952,13 @@ def get_worst_case_and_vaccinations_data(src_path, params,
 
             worst_case_and_vaccinations_data = \
                     worst_case_and_vaccinations_data.append(row, ignore_index=True)
+    
+    scenario = 1
+    if student_vaccination_ratio == 0.5:
+        scenario = 2
+    worst_case_and_vaccinations_data.to_csv(join(src_path.split('/ensembles')[0],
+                'worst_case_and_vaccinations_data_scenario_{}_observables.csv'\
+                .format(scenario)), index=False) 
             
     return worst_case_and_vaccinations_data
 
@@ -962,6 +1040,162 @@ def get_vaccination_data(src_path, params,
                     vaccination_data.append(row, ignore_index=True)
             
     return vaccination_data
+
+
+def get_age_dependent_transmission_risk_data(src_path, params,
+        school_types=['primary', 'primary_dc', 'lower_secondary',
+                      'lower_secondary_dc', 'upper_secondary', 'secondary'],
+        observables_of_interest=['infected_agents', 'R0']):
+    
+    age_dependent_transmission_risk_data = pd.DataFrame()
+    for stype in school_types:
+        print('\t{}'.format(stype))
+        stype_data = get_data(stype, src_path)
+
+        for i, screening_params in params.iterrows():
+            index_case, s_screen_interval, t_screen_interval, student_mask, \
+            teacher_mask, class_size_reduction, vent_mod, atd \
+            = screening_params
+
+            test = 'same_day_antigen'
+            turnover = 0
+            sensitivity = 1.0
+
+            # calculate the ensemble statistics for each measure combination 
+            measure_data = stype_data[\
+                (stype_data['preventive_test_type'] == test) &\
+                (stype_data['index_case'] == index_case) &\
+                (stype_data['student_screening_interval'] \
+                     == s_screen_interval) &\
+                (stype_data['teacher_screening_interval'] \
+                     == t_screen_interval) &\
+                (stype_data['student_mask'] == student_mask) &\
+                (stype_data['teacher_mask'] == teacher_mask) &\
+                (stype_data['class_size_reduction'] == class_size_reduction) &\
+                (stype_data['transmission_risk_ventilation_modifier'] \
+                     == vent_mod) &\
+                (stype_data['age_transmission_discount'] == atd)]
+
+            if len(measure_data) == 0:
+                print('WARNING: empty measure data for {}'.format(screening_params))
+                
+            half = False
+            if class_size_reduction > 0:
+                half = True
+
+            row = {'school_type':stype,
+                   'test_type':test,
+                   'turnover':turnover,
+                   'index_case':index_case,
+                   'student_screen_interval':s_screen_interval,
+                   'teacher_screen_interval':t_screen_interval,
+                   'student_mask':student_mask,
+                   'teacher_mask':teacher_mask,
+                   'ventilation_modification':vent_mod,
+                   'test_sensitivity':sensitivity,
+                   'class_size_reduction':class_size_reduction,
+                   'half_classes':half,
+                   'student_testing_rate':1.0,
+                   'teacher_testing_rate':1.0,
+                   'mask_efficiency_inhale':0.5,
+                   'mask_efficiency_exhale':0.7,
+                   'base_transmission_risk_multiplier':1.0,
+                   'friendship_ratio':0.0,
+                   'student_vaccination_ratio':0.0,
+                   'teacher_vaccination_ratio':0.0,
+                   'family_member_vaccination_ratio':0.0,
+                   'age_transmission_discount':atd,
+                   'contact_weight':0.3}
+
+            for col in observables_of_interest:
+                row.update(af.get_statistics(measure_data, col))
+
+            age_dependent_transmission_risk_data = \
+                    age_dependent_transmission_risk_data.append(row, ignore_index=True)
+            
+    age_dependent_transmission_risk_data.to_csv(join(src_path.split('/ensembles')[0],
+                'age_dependent_transmission_risk_atd-{}_observables.csv'\
+                .format(atd)), index=False) 
+            
+    return age_dependent_transmission_risk_data
+
+
+def get_contact_weight_data(src_path, params,
+        school_types=['primary', 'primary_dc', 'lower_secondary',
+                      'lower_secondary_dc', 'upper_secondary', 'secondary'],
+        observables_of_interest=['infected_agents', 'R0']):
+    
+    contact_weight_data = pd.DataFrame()
+    for stype in school_types:
+        print('\t{}'.format(stype))
+        stype_data = get_data(stype, src_path)
+
+        for i, screening_params in params.iterrows():
+            index_case, s_screen_interval, t_screen_interval, student_mask, \
+            teacher_mask, class_size_reduction, vent_mod, cw \
+            = screening_params
+
+            test = 'same_day_antigen'
+            turnover = 0
+            sensitivity = 1.0
+
+            # calculate the ensemble statistics for each measure combination 
+            measure_data = stype_data[\
+                (stype_data['preventive_test_type'] == test) &\
+                (stype_data['index_case'] == index_case) &\
+                (stype_data['student_screening_interval'] \
+                     == s_screen_interval) &\
+                (stype_data['teacher_screening_interval'] \
+                     == t_screen_interval) &\
+                (stype_data['student_mask'] == student_mask) &\
+                (stype_data['teacher_mask'] == teacher_mask) &\
+                (stype_data['class_size_reduction'] == class_size_reduction) &\
+                (stype_data['transmission_risk_ventilation_modifier'] \
+                     == vent_mod) &\
+                (stype_data['contact_weight'] == cw)]
+
+            if len(measure_data) == 0:
+                print('WARNING: empty measure data for {}'.format(screening_params))
+                
+            half = False
+            if class_size_reduction > 0:
+                half = True
+
+            row = {'school_type':stype,
+                   'test_type':test,
+                   'turnover':turnover,
+                   'index_case':index_case,
+                   'student_screen_interval':s_screen_interval,
+                   'teacher_screen_interval':t_screen_interval,
+                   'student_mask':student_mask,
+                   'teacher_mask':teacher_mask,
+                   'ventilation_modification':vent_mod,
+                   'test_sensitivity':sensitivity,
+                   'class_size_reduction':class_size_reduction,
+                   'half_classes':half,
+                   'student_testing_rate':1.0,
+                   'teacher_testing_rate':1.0,
+                   'mask_efficiency_inhale':0.5,
+                   'mask_efficiency_exhale':0.7,
+                   'base_transmission_risk_multiplier':1.0,
+                   'friendship_ratio':0.0,
+                   'student_vaccination_ratio':0.0,
+                   'teacher_vaccination_ratio':0.0,
+                   'family_member_vaccination_ratio':0.0,
+                   'age_transmission_discount':-0.005,
+                   'contact_weight':cw}
+
+            for col in observables_of_interest:
+                row.update(af.get_statistics(measure_data, col))
+
+            contact_weight_data = \
+                    contact_weight_data.append(row, ignore_index=True)
+            
+    contact_weight_data.to_csv(join(src_path.split('/ensembles')[0],
+                'contact_weight_data_cw-{}_observables.csv'\
+                .format(cw)), index=False) 
+            
+    return contact_weight_data
 
 
 def build_test_sensitivity_heatmap(test_sensitivity_data, sensitivities, 
@@ -1179,6 +1413,43 @@ def build_added_friendship_contacts_heatmaps(added_friendship_contacts_data,
         hmaps_added_friendship_contacts['R0'][index_case] = cmap_R0
     
     return hmaps_added_friendship_contacts
+
+
+def build_transmissibility_heatmaps(transmissibility_data, 
+        transmissibilities, school_types=school_types):
+    
+    data = transmissibility_data[\
+            (transmissibility_data['student_screen_interval'] == 'never') &\
+            (transmissibility_data['teacher_screen_interval'] == 'never') &\
+            (transmissibility_data['student_mask'] == False) &\
+            (transmissibility_data['teacher_mask'] == False) &\
+            (transmissibility_data['class_size_reduction'] == 0.0) &\
+            (transmissibility_data['ventilation_modification'] == 1.0)]
+
+    data = data.set_index(\
+                ['school_type', 'base_transmission_risk_multiplier', 'index_case'])
+
+    hmaps_transmissibility = {
+        'N_infected':{'student':np.nan, 'teacher':np.nan},
+        'R0':{'student':np.nan, 'teacher':np.nan}
+    }
+
+    for index_case in ['student', 'teacher']:
+        cmap = np.zeros((len(transmissibilities), len(school_types)))
+        cmap_R0 = np.zeros((len(transmissibilities), len(school_types)))
+        for i, tm in zip(range(len(transmissibilities)), transmissibilities):
+            for j, st in enumerate(school_types):
+                bl_infected_agents = data.loc[st, 1.0, index_case]\
+                    ['infected_agents_mean']
+                bl_R0 = data.loc[st, 1.0, index_case]['R0_mean']
+                cmap[i, j] = data.loc[st, tm, index_case]['infected_agents_mean'] / \
+                    bl_infected_agents
+                cmap_R0[i, j] = data .loc[st, tm, index_case]['R0_mean']
+
+        hmaps_transmissibility['N_infected'][index_case] = cmap
+        hmaps_transmissibility['R0'][index_case] = cmap_R0
+    
+    return hmaps_transmissibility
 
 
 def plot_heatmaps(axes, heatmaps, ylabel, yticklabels, indicator_ypos, colors,

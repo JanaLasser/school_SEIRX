@@ -620,7 +620,7 @@ def set_measure_packages_worst_case(data):
                   (data['teacher_mask'] == False) & \
                   (data['student_screen_interval'] == 7) & \
                   (data['teacher_screen_interval'] == 7) & \
-                  (data['class_size_reduction'] == 0.3)].index, 'measure'] = \
+                  (data['class_size_reduction'] == 0.0)].index, 'measure'] = \
                   'ventilation + tests teachers 1x + tests students 1x'
     # ventilation + testing 2x / week teachers AND students
     data.loc[data[(data['ventilation_mod'] == 0.8) & \

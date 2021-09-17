@@ -192,7 +192,6 @@ def get_measures(measure_string):
     stype, _ = measure_string.split('_test')
     rest = measure_string.split(stype + '_')[1]
     
-
     ttpype, turnover, index, tf, sf, tmask, smask, vent, stestrate, \
     ttestrate, trisk, meffexh, meffinh, csizered, fratio, svacc, tvacc, \
     fvacc, atd, cw = rest.split('_')
@@ -722,14 +721,16 @@ def get_added_friendship_contacts_data(src_path, params, baseline_data,
     baseline_chunk = baseline_data[\
                 (baseline_data['test_type'] == 'antigen') &\
                 (baseline_data['turnover'] == 0) &\
-                (baseline_data['student_screen_interval'] == s_screen_interval) &\
-                (baseline_data['teacher_screen_interval'] == t_screen_interval) &\
-                (baseline_data['student_mask'] == student_mask) &\
-                (baseline_data['teacher_mask'] == teacher_mask) &\
-                (baseline_data['class_size_reduction'] == class_size_reduction) &\
+                (baseline_data['student_screen_interval'] == 'never') &\
+                (baseline_data['teacher_screen_interval'] == 'never') &\
+                (baseline_data['student_mask'] == False) &\
+                (baseline_data['teacher_mask'] == False) &\
+                (baseline_data['class_size_reduction'] == 0.0) &\
                 (baseline_data['ventilation_modification'] == 1.0) &\
                 (baseline_data['friendship_ratio'] == 0.0)]
-
+    
+    # TODO dirty hack. fix this and figure out why there are duplicates
+    baseline_chunk = baseline_chunk.drop_duplicates()
     added_friendship_contacts_data = pd.concat([added_friendship_contacts_data, \
                     baseline_chunk[added_friendship_contacts_data.columns].copy()])
     

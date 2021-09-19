@@ -1,14 +1,10 @@
-import networkx as nx
 import pandas as pd
-import numpy as np
 from os.path import join
-import os
-import shutil
-import json
+from os import listdir
+import networkx as nx
 
 from scseirx.model_school import SEIRX_school
 from scseirx import analysis_functions as af
-from scseirx import construct_school_network as csn
 
 def compose_agents(measures, simulation_params):
     '''
@@ -128,7 +124,7 @@ def run_model(G, agent_types, measures, simulation_params, index_case,
       agent_types = agent_types, 
       age_transmission_risk_discount = \
                          simulation_params['age_transmission_discount'],
-      age_symptom_discount = simulation_params['age_symptom_discount'],
+      age_symptom_modification = simulation_params['age_symptom_discount'],
       mask_filter_efficiency = simulation_params['mask_filter_efficiency'],
       transmission_risk_ventilation_modifier = ventilation_mod,
       seed=seed)
@@ -259,14 +255,14 @@ def run_ensemble(N_runs, school_type, measures, simulation_params,
         ensemble_results = ensemble_results.append(row,
             ignore_index=True)
         
-    ensemble_results.to_csv(join(spath_ensmbl, measure_string + '_.csv'))
+    ensemble_results.to_csv(join(spath_ensmbl, measure_string + '.csv'))
         
     return ensemble_results   
 
 def get_data(stype, src_path):
     data = pd.DataFrame()
     stype_path = join(src_path, stype)
-    files = os.listdir(stype_path)
+    files = listdir(stype_path)
     for f in files:
         screening_params, agents, half = af.get_measures(f.strip('.csv'))
         ensmbl = pd.read_csv(join(stype_path, f))
@@ -434,3 +430,10 @@ def set_measure_packages(data):
                   (data['teacher_screening_interval'] == 3) & \
                   (data['half_classes'] == True)].index, 'measure'] = \
                   'all measures'
+    
+    
+def format_none_column(x):
+    if x == 'None':
+        return None
+    else:
+        return int(x)

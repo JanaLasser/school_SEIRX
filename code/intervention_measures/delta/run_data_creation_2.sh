@@ -1,2 +1,0 @@
-python intervention_measures_delta_data_creation.py upper_secondary 500 
-python intervention_measures_delta_data_creation.py secondary 500 

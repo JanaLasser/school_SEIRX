@@ -17,6 +17,8 @@ code/calibration/.ipynb_checkpoints/
 code/intervention_measures/.ipynb_checkpoints/
 code/visualizations/.ipynb_checkpoints/
 code/sensitivity_analysis/.ipynb_checkpoints/
+code/intervention_measures/delta/__pycache__/
+code/intervention_measures/wild_type/__pycache__/
 code/intervention_measures/__pycache__/
 code/vaccinations/__pycache__
 code/sensitivity_analysis/tmp

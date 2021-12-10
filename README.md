@@ -1,4 +1,4 @@
-# Assessing the impact of SARS-CoV-2prevention measures in Austrian schools by means ofagent-based simulations calibrated to clustertracing data
+# Assessing the impact of SARS-CoV-2prevention measures in Austrian schools by means of agent-based simulations calibrated to clustertracing data
 **Author: Jana Lasser, Graz University of Technology (jana.lasser@tugraz.at)**
 
 Simulations using the [scseirx](https://pypi.org/project/scseirx/) (small-community-SEIRX) package to simulate disease spread in small communities and under a range of different interventions. This repository is an application to schools, presented in [this](https://doi.org/10.1101/2021.04.13.21255320) preprint.

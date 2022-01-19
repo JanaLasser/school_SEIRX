@@ -168,6 +168,9 @@ elif hostname == "T14s":
 elif hostname == "marvin":
     number_of_cores = 28  # marvin
     print("running on {}, using {} cores".format(hostname, number_of_cores))
+elif hostname == "medea":
+    number_of_cores = 200  # marvin
+    print("running on {}, using {} cores".format(hostname, number_of_cores))
 else:
     print("unknown host")
 

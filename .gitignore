@@ -28,3 +28,12 @@ code/network_construction/
 code/sensitivity_analysis_old/
 code/calibration_old/
 code/data_wrangling/
+code/sensitivity_analysis/run_data_creation*
+code/calibration_noage/
+code/calibration_teaching_intermediate/
+code/intervention_measures/wild_type/
+code/intervention_measures/delta/delta_variant_information.ipynb
+code/intervention_measures/delta/intervention_measures_delta_data_creation.py
+code/vaccinations/vaccinations_data_creation.py
+code/calibration/construct_school_networks_calibration_schools.py
+code/calibration/run_distance_measure_bootstrapping.py

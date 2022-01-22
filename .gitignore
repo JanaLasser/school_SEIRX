@@ -21,6 +21,7 @@ code/intervention_measures/delta/__pycache__/
 code/intervention_measures/wild_type/__pycache__/
 code/intervention_measures/__pycache__/
 code/vaccinations/__pycache__
+code/vaccinations_omicron/__pycache__
 code/sensitivity_analysis/tmp
 code/misc_analysis/
 code/network_construction/

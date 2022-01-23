@@ -1,6 +1,6 @@
 {
 	"verbosity": 0,
-	"base_transmission_risk": 0.27675,
+	"base_transmission_risk": 0.49794,
 	"subclinical_modifier": 0.6,
 	"exposure_duration": [
 		2.0,

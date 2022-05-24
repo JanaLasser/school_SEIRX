@@ -8,7 +8,7 @@ Simulations using the [scseirx](https://pypi.org/project/scseirx/) (small-commun
 
 Reference:  
 
-Lasser, J., Sorger, J., Richter, L., Thurner, S., Schmid, D., Klimek, P. (2022). _Assessing the impact of SARS-CoV-2 prevention measures in schools by means of agent-based simulations calibrated to cluster tracing data_. Nature Communications. [DOI](https://doi.org/10.1038/s41467-022-28170-6): 10.1038/s41467-022-28170-6_
+Lasser, J., Sorger, J., Richter, L., Thurner, S., Schmid, D., Klimek, P. (2022). _Assessing the impact of SARS-CoV-2 prevention measures in schools by means of agent-based simulations calibrated to cluster tracing data_. Nature Communications. [DOI](https://doi.org/10.1038/s41467-022-28170-6): 10.1038/s41467-022-28170-6
 
 ## Contents
 The content of this repository is structured into four main parts, also reflected in the folder structure of the ```code``` subfolder.
